@@ -1,5 +1,5 @@
 # Language Model Decoder
-Decoding to transduce from sentence to both word and reading sequence.   
+Decoding to transduce from sentence to both word and its context-dependent reading sequence.   
 This repository is for my own study.
 
 ## key points
