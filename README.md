@@ -20,7 +20,7 @@ $ make train_svm  # train with Structured Support Vector Machine
 ## run train
 - train linear discriminative model
 ```shell
-$ ./bin/train_pc sample.dic sample.txt pc.model pc.dic
+$ ./bin/train_pc sample_data/sample.dic sample_data/sample.txt pc.model pc.dic
 [DEBUG] src/utils/FileChunker.cpp:39:splitFile: file=0  sample=500
 [DEBUG] src/utils/FileChunker.cpp:39:splitFile: file=1  sample=1000
 [DEBUG] src/utils/FileChunker.cpp:39:splitFile: file=2  sample=1500
