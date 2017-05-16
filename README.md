@@ -2,7 +2,7 @@
 Decoding to transduce from sentence to both word and reading sequence.   
 This repository is for my own study.
 
-## Keypoints
+## key points
 - Stochastic N-gram Language Model (ARPA Format)
 - Linear Discriminative Model(Structured SVM/Perceptron)
 - forward beam search / viterbi / backward a star
@@ -17,7 +17,7 @@ $ make train_pc   # train with Structured Perceptron
 $ make train_svm  # train with Structured Support Vector Machine
 ```  
 
-## run train
+## run model training
 - train linear discriminative model
 ```shell
 $ ./bin/train_pc sample_data/sample.dic sample_data/sample.txt pc.model pc.dic
