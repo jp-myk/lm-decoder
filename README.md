@@ -20,23 +20,23 @@ $ make train_svm  # train with Structured Support Vector Machine
 ## run model training
 - train linear discriminative model
 ```shell
-$ ./bin/train_pc sample_data/sample.dic sample_data/sample.txt pc.model pc.dic
-[DEBUG] src/utils/FileChunker.cpp:39:splitFile: file=0  sample=500
-[DEBUG] src/utils/FileChunker.cpp:39:splitFile: file=1  sample=1000
-[DEBUG] src/utils/FileChunker.cpp:39:splitFile: file=2  sample=1500
-[DEBUG] src/utils/FileChunker.cpp:54:splitFile: file=3  sample=1508
-iter=1  precision=0.725464
-iter=2  precision=0.895225
-iter=3  precision=0.960212
-iter=4  precision=0.982759
-iter=5  precision=0.996684
-iter=6  precision=0.998674
-iter=7  precision=0.999337
-iter=8  precision=0.998674
-iter=9  precision=0.999337
-iter=10 precision=0.998674
-[DEBUG] src/decoder/Dic.cpp:39:save: save dic=pc.dic
-[DEBUG] src/classifier/Model.cpp:31:save: save model=pc.model
+$ ./bin/train_svm sample_data/sample.dic sample_data/sample.txt svm.model svm.dic
+[INFO] src/utils/FileChunker.cpp:39:splitFile: file=0   sample=500
+[INFO] src/utils/FileChunker.cpp:39:splitFile: file=1   sample=1000
+[INFO] src/utils/FileChunker.cpp:39:splitFile: file=2   sample=1500
+[INFO] src/utils/FileChunker.cpp:54:splitFile: file=3   sample=1508
+iter=1  precision=0.306366
+iter=2  precision=0.534483
+iter=3  precision=0.784483
+iter=4  precision=0.896552
+iter=5  precision=0.930371
+iter=6  precision=0.947613
+iter=7  precision=0.976127
+iter=8  precision=0.982759
+iter=9  precision=0.988727
+iter=10 precision=0.996684
+[INFO] src/decoder/Dic.cpp:39:save: save dic=svm.dic
+[INFO] src/classifier/Model.cpp:30:save: save model=svm.model
 ```
 
 - train ngram lm    

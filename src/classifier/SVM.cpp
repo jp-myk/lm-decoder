@@ -41,7 +41,7 @@ double SVM::classify(const std::vector<std::string> &feat_vec){
 
 
 void SVM::regularize_all(){
-  LOG(DEBUG) << "trainig done";
+  //LOG(DEBUG) << "trainig done";
   std::vector<std::string> feat_vec;
   feat_vec.reserve(_weights.size());
   std::tr1::unordered_map<std::string, double>::iterator it;

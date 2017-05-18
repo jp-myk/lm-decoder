@@ -19,7 +19,8 @@ int main(int argc, char *argv[]){
       output.push_back(token);
     }
     std::cout << "======== 1-BEST =========" << std::endl;
-    std::cout << join(" ", output) << "\t" << result.score << std::endl;
+    std::string outputStr = join(" ", output);
+    printf("%d-best\t%s\t%.4f\n",1, outputStr.c_str(), result.score);
 
     std::cout << "======== N-BEST =========" << std::endl;
     NBestResult nbestResult;
@@ -31,8 +32,8 @@ int main(int argc, char *argv[]){
 	std::string token = t_result.surfaceList[i]+":"+t_result.readingList[i]; 
 	t_output.push_back(token);
       }
-      std::string output = join(" ", t_output);
-      printf("%d-best\t%s\t%.4f\n",(int)n+1, output.c_str(), t_result.score);
+      outputStr = join(" ", t_output);
+      printf("%d-best\t%s\t%.4f\n",(int)n+1, outputStr.c_str(), t_result.score);
     }
 
   }
