@@ -1,8 +1,7 @@
 #include "Model.h"
 
 void Model::save(const char* filename){
-  printf("[DEBUG]%s:%s:%d:save model=%s\n",__FILE__,__FUNCTION__,__LINE__,filename);
-
+  LOG(INFO) << "save model=" << filename; 
   FILE *fp;
   std::tr1::unordered_map<std::string, double>::const_iterator it;
   if ((fp = fopen(filename, "w")) == NULL) {
@@ -28,7 +27,7 @@ void Model::read(const char* filename){
 
 void Model::save(const char* filename,
 		 const std::tr1::unordered_map<std::string, double>& weights){
-  LOG(DEBUG) << "save model=" << filename;
+  LOG(INFO) << "save model=" << filename;
   FILE *fp;
   std::tr1::unordered_map<std::string, double>::const_iterator it;
   if ((fp = fopen(filename, "w")) == NULL) {

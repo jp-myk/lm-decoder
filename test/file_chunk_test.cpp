@@ -1,9 +1,9 @@
-#include "FileChunker.h"
+#include "utils/FileChunker.h"
 #include <iostream>
 
 int main(){
   FileChunker fileChunker;
-  fileChunker.splitFile("WDB/train.100.cps","tmp_dir",30);
+  fileChunker.splitFile("sample_data/sample.txt","tmp_dir",30);
   int iter_num = 2;
   for(int it_n=0;it_n<iter_num;it_n++){
     std::cout << "iter num=" << it_n+1 << std::endl;

@@ -1,7 +1,7 @@
-#include "SLM.h"
+#include "ngram/SLM.h"
 
 int main(){
-  const char* arpaFName="sample_set/train.3gram.arpa";
+  const char* arpaFName="sample_data/sample.3gram.arpa";
   SLM slm;
   slm.readLM(arpaFName);
 

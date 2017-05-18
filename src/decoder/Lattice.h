@@ -114,6 +114,7 @@ class Lattice{
   Lattice(size_t frame_size){
     _graph = (Node**)NULL;
     _node_size = (size_t*)NULL;
+    _frame_size = 0;
     resize(frame_size);
   };
   

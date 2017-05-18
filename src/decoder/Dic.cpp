@@ -36,7 +36,7 @@ void Dic::build_trie(){
 }
 
 void Dic::save(const char *filename){
-  LOG(DEBUG) << "save dic=" << filename;
+  LOG(INFO) << "save dic=" << filename;
   //trie.save(filename);
   std::ofstream ofs;
   ofs.open(filename);

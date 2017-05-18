@@ -36,7 +36,7 @@ int FileChunker::splitFile(const char* infile, const char* outdir, int n_split_l
       for(it=samples.begin();it!=samples.end();it++){
 	ofs << *it << std::endl;
       }
-      LOG(DEBUG) << "file=" << _num_split_file << "\tsample=" << _num_all_sample;
+      LOG(INFO) << "file=" << _num_split_file << "\tsample=" << _num_all_sample;
       _num_split_file++;
       ofs.close();
       samples.clear();
@@ -51,7 +51,7 @@ int FileChunker::splitFile(const char* infile, const char* outdir, int n_split_l
     for(it=samples.begin();it!=samples.end();it++){
 	ofs << *it << std::endl;
     }
-    LOG(DEBUG) << "file=" << _num_split_file << "\tsample=" << _num_all_sample;
+    LOG(INFO) << "file=" << _num_split_file << "\tsample=" << _num_all_sample;
     _num_split_file++;
 
   }

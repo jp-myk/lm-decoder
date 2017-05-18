@@ -1,9 +1,9 @@
 # Language Model Decoder
-Decoding to transduce from sentence to both word and its context-dependent reading sequence.   
+Decoding to transduce from a sentence to both word and its context-dependent reading sequence.   
 This repository is for my own study.
 
 ## key points
-- Stochastic N-gram Language Model (ARPA Format)
+- Statistical N-gram Language Model (ARPA Format)
 - Linear Discriminative Model(Structured SVM/Perceptron)
 - forward beam search / viterbi / backward a star
 - extract n-best hypothesis
@@ -59,6 +59,7 @@ $ echo "平城京は奈良時代の日本の首都" | ./bin/lmdecoder sample_dat
 
 - decoder
 ```shell
+$ echo "平城京は奈良時代の日本の首都" | ./bin/decoder svm.dic svm.model 
 ======== 1-BEST =========
 平城京:ヘイジョウキョウ は:ハ 奈良:ナラ 時代:ジダイ の:ノ 日本:ニッポン の:ノ 首都:シュト       5.0000
 ======== N-BEST =========

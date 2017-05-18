@@ -30,15 +30,15 @@ train_svm: bin/train_svm.o src/utils/FileChunker.o src/classifier/SVM.o src/lear
 	$(CXX) $(CXXFLAGS)  -o bin/train_svm  $^ $(LIBS) $(LDFLAGS) $(INCLUDES)
 
 
-SLM_test: test/SLM_test.o
+SLM_test: test/SLM_test.o src/ngram/SLM.o
 	$(CXX) $(CXXFLAGS) $(LIBS) $(LDFLAGS) $(INCLUDES) -o test/$@  $^
 	valgrind --error-limit=no --leak-check=full --show-reachable=yes -v ./test/SLM_test 
 
-lattice_test: test/lattice_test.o
+lattice_test: test/lattice_test.o src/decoder/Lattice.o
 	$(CXX) $(CXXFLAGS) $(LIBS) $(LDFLAGS) $(INCLUDES) -o test/$@  $^
 	#valgrind --error-limit=no --leak-check=full --show-reachable=yes -v ./test/SLM_test 
 
-file_chunk_test: test/file_chunk_test.o
+file_chunk_test: test/file_chunk_test.o src/utils/FileChunker.o
 	$(CXX) $(CXXFLAGS) $(LIBS) $(LDFLAGS) $(INCLUDES) -o test/$@  $^
 
 
