@@ -27,15 +27,27 @@ void Lattice::expandNode(int n_frame, const std::vector<Node>& nodes){
 void Lattice::addNode(size_t n_frame, const Node& node){
   _node_size[n_frame] +=1;
   size_t node_size = _node_size[n_frame];
+  
+  // tmp alloc
   Node *t_node = new Node[node_size];
-  memcpy(t_node, _graph[n_frame],(node_size-1)*sizeof(Node));
+  for(size_t i=0;i<node_size-1;i++){
+    t_node[i] = _graph[n_frame][i]; 
+  }
   t_node[node_size-1] = node;
   
-  if(_graph[n_frame] != (Node*)NULL) delete [] _graph[n_frame];
+  // dirty tmp delete
+  if(_graph[n_frame] != (Node*)NULL){
+    //LOG(DEBUG) << "delete node";
+    delete [] _graph[n_frame];
+  }
+  
+  // new alloc
   _graph[n_frame] = new Node[node_size];
   for(size_t i=0;i<node_size;i++){
     _graph[n_frame][i] = t_node[i];
   }
+  
+  delete [] t_node;
 }  
   
 
@@ -56,7 +68,7 @@ void Lattice::clear(){
   //LOG(DEBUG) << "frame_size=" << _frame_size;
   for(size_t i=0;i<_frame_size;i++){
     if(_graph[i]!=(Node*)NULL){
-      //LOG(DEBUG) << "delete graph i";
+      //LOG(DEBUG) << "delete nodes " << i;
       delete [] _graph[i];
     }
     //LOG(DEBUG) << "delete graph";	
