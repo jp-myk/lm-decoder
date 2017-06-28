@@ -104,7 +104,10 @@ Lattice& NgramLMDecoder::forward(const Lattice &word_lattice){
     std::sort(current_frame_hyp_list.begin(),current_frame_hyp_list.end(),std::greater<Node>());
 
     // beam prune
-    
+    if(current_frame_hyp_list.size()>_beam_size){
+      current_frame_hyp_list.erase(current_frame_hyp_list.begin()+_beam_size, current_frame_hyp_list.end());
+    }
+
     // push current hyp list
     if(is_debug()){
       LOG(DEBUG) << i << "-th frame add hyp list:" << current_frame_hyp_list.size() ;
