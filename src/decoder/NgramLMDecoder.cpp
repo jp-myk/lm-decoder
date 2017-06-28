@@ -66,7 +66,7 @@ bool operator>(const Node& a, const Node& b){
 Lattice& NgramLMDecoder::forward(const Lattice &word_lattice){
   //LOG(DEBUG) << "graph size=" << word_lattice.sizeOfFrame() << std::endl;
   
-  int ngram_size = 3;
+  int ngram_size = _slm.getNgramLength();
   for(size_t i=0;i<word_lattice.sizeOfFrame();i++){ // loop frame
     std::vector<Node> current_frame_hyp_list;
     _hyp_lattice.addFrame(i); // dynamic memory allocate i-th Frame

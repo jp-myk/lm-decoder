@@ -90,6 +90,8 @@ class SLM{
   
   int readLM(const char *filename);
   int writeLM(char *filename);
+  int getNgramLength();
+  int getNgramSize(int n_order);
   double getProb(std::vector<std::string>& vec, int len);  // return Prob with BOW
   double getProb(std::vector<int>& vec, int len);  // return Prob with BOW
   double getProb(std::string& str, int len);  // return Prob with BOW

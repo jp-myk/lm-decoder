@@ -136,6 +136,23 @@ double SLM::_getProb0(std::vector<std::string>& word_array, int len){
   return prob;
 }
 
+/*
+ * @return the maximal N-gram order to be used
+ */
+int SLM::getNgramLength(){
+  return _ngram_len;
+}
+
+
+/*
+ * @return the size of N-gram 
+ */
+int SLM::getNgramSize(int n_order){
+  return _ngram_size[n_order];
+}
+
+
+
 //-------------------------------
 // return Ngram Probability from Sring Words
 //-------------------------------
