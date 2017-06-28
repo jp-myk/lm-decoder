@@ -15,7 +15,7 @@ class NgramLMDecoder : public Decoder{
   Lattice _word_lattice,_hyp_lattice;
   SLM _slm;
   bool _debug;
-  int _beam_size;
+  size_t _beam_size;
   std::string _delimiter;
   double get_lm_score(const Node *node, int ngram_size);
   
