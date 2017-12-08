@@ -13,7 +13,7 @@
 ```shall
 $ make
 ```
-
+or
 ```shell
 $ make decoder    # decoder with Linear Discriminative Model 
 $ make lmdecoder  # decoder with N-gram Language Model
