@@ -1,15 +1,19 @@
 # Language Model Decoder
-Decoding to transduce from a sentence to both word and its context-dependent reading sequence.   
-This repository is for my own study.
+- Transducer from a sentence to word/reading sequence.   
+- This repository is for my own study.
 
 ## key points
 - Statistical N-gram Language Model (ARPA Format)
 - Linear Discriminative Model(Structured SVM/Perceptron)
-- forward beam search / viterbi / backward a star
-- extract n-best hypothesis
-- use marisa trie to look up a dictionary( https://github.com/s-yata/marisa-trie )
+- Lattice search algorithm is simple forward viterbi / beam search / backward a star
+- Support to extract n-best hypothesis
+- Use marisa-trie for dictionary look-up( https://github.com/s-yata/marisa-trie )
 
 ## build
+```shall
+$ make
+```
+
 ```shell
 $ make decoder    # decoder with Linear Discriminative Model 
 $ make lmdecoder  # decoder with N-gram Language Model
