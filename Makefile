@@ -12,7 +12,7 @@ LIBS=$(MARISA_LIB)  # install marisa trie to this path
 INCLUDES= -I./util -I./src $(MARISA_INCLUDE)
 LDFLAGS = 
 OBJS = src/yomifuyoLM.o
-TARGETS = train_pc train_svm decoder lmdecoder
+TARGETS = deplibs train_pc train_svm decoder lmdecoder
 
 
 OS := $(shell uname -s)
@@ -31,7 +31,7 @@ all: $(TARGETS)
 
 deplibs:
 	git submodule update -i 
-	cd $(MARISA_PATH) && autoreconf --install && ./configure --prefix=$(MARISA_PATH)/local
+	cd $(MARISA_PATH) && autoreconf --install && ./configure --prefix=$(MARISA_PATH)/local && make && make install
 
 make_data: 
 	wget -q -O sample_data/aozora.csv.gz  http://aozora-word.hahasoha.net/utf8/utf8_all.csv.gz
