@@ -6,7 +6,6 @@
 #include "decoder/Dic.h"
 #include "decoder/Lattice.h"
 using namespace std;
-using namespace std::tr1;
 
 struct Result{
   std::vector<std::string> surfaceList;

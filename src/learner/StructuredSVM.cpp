@@ -14,7 +14,7 @@ void StructuredSVM::learn(const std::string& input){
   Result corr_result = ILearner::parseLine(input); 
   checkUpdateDic(corr_result);
   std::string str = ILearner::joinKeyStr(corr_result); // input key join
-  std::tr1::unordered_map<int, Node> gold=convert_to_gold_standard(corr_result);
+  std::unordered_map<int, Node> gold=convert_to_gold_standard(corr_result);
 
   //LOG(DEBUG) << " input Surface=" << str; 
   Lattice &lattice = decoder.generate_lattice(str);
@@ -119,8 +119,8 @@ void StructuredSVM::read(const char* filename){
 }
 
 
-std::tr1::unordered_map<int,Node> StructuredSVM::convert_to_gold_standard(Result& result){
-  std::tr1::unordered_map<int, Node> retval;
+std::unordered_map<int,Node> StructuredSVM::convert_to_gold_standard(Result& result){
+  std::unordered_map<int, Node> retval;
   std::vector<Node> nodes = ILearner::convert_to_nodes(result);
   std::vector<Node>::iterator it;
   int nodeSize=(int)nodes.size();

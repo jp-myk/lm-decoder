@@ -3,7 +3,7 @@
 void Model::save(const char* filename){
   LOG(INFO) << "save model=" << filename; 
   FILE *fp;
-  std::tr1::unordered_map<std::string, double>::const_iterator it;
+  std::unordered_map<std::string, double>::const_iterator it;
   if ((fp = fopen(filename, "w")) == NULL) {
     printf("file open error!!\n");
     exit(EXIT_FAILURE);
@@ -26,10 +26,10 @@ void Model::read(const char* filename){
 
 
 void Model::save(const char* filename,
-		 const std::tr1::unordered_map<std::string, double>& weights){
+		 const std::unordered_map<std::string, double>& weights){
   LOG(INFO) << "save model=" << filename;
   FILE *fp;
-  std::tr1::unordered_map<std::string, double>::const_iterator it;
+  std::unordered_map<std::string, double>::const_iterator it;
   if ((fp = fopen(filename, "w")) == NULL) {
     printf("file open error!!\n");
     exit(EXIT_FAILURE);
@@ -72,7 +72,7 @@ double Model::get_score(const std::vector<std::string> &feat_vec){
 
 
 void Model::read(const char* filename,
-		 std::tr1::unordered_map<std::string, double>& weights){
+		 std::unordered_map<std::string, double>& weights){
   std::ifstream ifs(filename);
   std::string line;
   while(ifs && std::getline(ifs, line)){

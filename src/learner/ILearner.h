@@ -7,7 +7,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
-#include <tr1/unordered_map>
+#include <unordered_map>
 #include "utils/StringUtil.h"
 #include "decoder/IDecoder.h"
 

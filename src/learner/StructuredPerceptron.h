@@ -7,7 +7,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
-#include <tr1/unordered_map>
+#include <unordered_map>
 #include "learner/ILearner.h"
 #include "decoder/Decoder.h"
 #include "classifier/Perceptron.h"

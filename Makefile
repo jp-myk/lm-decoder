@@ -1,18 +1,37 @@
 #!/bin/make
+PWD=$(shell pwd)
+
 CC = gcc
-CFLAGS = -g -Wall
+CFLAGS = -O3 -std=c++11 -Wall # -g 
 CXX = g++
-CXXFLAGS = -g -Wall
-LIBS=-L./3rdParty/lib  # install marisa trie to this path
-INCLUDES=-I$(HOME)/local/include -I./util -I./3rdParty/include -I./src -I/
-LDFLAGS = -lmarisa
+CXXFLAGS = -O3 -std=c++11 -Wall # -g
+MARISA_PATH=$(PWD)/third_party/marisa-trie
+MARISA_LIB=-L$(MARISA_PATH)/local/lib -lmarisa
+MARISA_INCLUDE=-I$(MARISA_PATH)/local/include
+LIBS=$(MARISA_LIB)  # install marisa trie to this path
+INCLUDES= -I./util -I./src $(MARISA_INCLUDE)
+LDFLAGS = 
 OBJS = src/yomifuyoLM.o
 TARGETS = train_pc train_svm decoder lmdecoder
+
+
+OS := $(shell uname -s)
+ifeq ($(UNAME_S),Linux)
+  CXXFLAGS += -DLINUX
+endif
+ifeq ($(UNAME_S),Darwin)
+  CXXFLAGS += -DOSX
+endif
+
 
 .PHONY: all clean
 .SUFFIXES: .c .cpp .o
 
 all: $(TARGETS)
+
+deplibs:
+	git submodule update -i 
+	cd $(MARISA_PATH) && autoreconf --install && ./configure --prefix=$(MARISA_PATH)/local
 
 make_data: 
 	wget -q -O sample_data/aozora.csv.gz  http://aozora-word.hahasoha.net/utf8/utf8_all.csv.gz

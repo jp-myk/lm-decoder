@@ -7,7 +7,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
-#include <tr1/unordered_map>
+#include <unordered_map>
 #include <math.h>
 #include <algorithm>
 #include "classifier/Model.h"
@@ -46,8 +46,8 @@ class SVM : public Model {
   double _penalty;
   double _learning_rate;
   int _updated_count;
-  std::tr1::unordered_map<std::string,double> _weights;    // feature -> weight
-  std::tr1::unordered_map<std::string, int> _last_updated; // feature -> count 
+  std::unordered_map<std::string,double> _weights;    // feature -> weight
+  std::unordered_map<std::string, int> _last_updated; // feature -> count 
   int sign(int x){ // sign関数
     return x>=0 ? 1 : -1;
   };

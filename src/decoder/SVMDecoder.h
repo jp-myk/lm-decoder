@@ -3,7 +3,7 @@
 #include <climits>
 #include <string>
 #include <vector>
-#include <tr1/unordered_map>
+#include <unordered_map>
 #include "decoder/Decoder.h"
 #include "classifier/SVM.h"
 #include "utils/StringUtil.h"
@@ -11,7 +11,7 @@
 #define DEBUG 1
 //typedef vector<string, string> 
 using namespace std;
-using namespace std::tr1;
+
 
 class SVMDecoder : public Decoder {
  public:
@@ -47,8 +47,8 @@ class SVMDecoder : public Decoder {
   Lattice& generate_lattice(const std::string& str){
     return Decoder::generate_lattice(_dic, str);
   }
-  Lattice& viterbi_with_penalty(Lattice &word_lattice, std::tr1::unordered_map<int, Node>& gold);
-  Result decode_with_penalty(const std::string &input, std::tr1::unordered_map<int, Node>& gold){
+  Lattice& viterbi_with_penalty(Lattice &word_lattice, std::unordered_map<int, Node>& gold);
+  Result decode_with_penalty(const std::string &input, std::unordered_map<int, Node>& gold){
     Result result;
     Lattice &word_lattice = Decoder::generate_lattice(_dic, input);
     Lattice &hyp_lattice = viterbi_with_penalty(word_lattice, gold);
@@ -60,10 +60,10 @@ class SVMDecoder : public Decoder {
   ;
   Feature _feature;
   std::string _delimiter;
-  bool _is_correct_node(Node& node, std::tr1::unordered_map<int, Node>& gold);
-  bool _is_correct_edge(Node& prev_node, Node& node, std::tr1::unordered_map<int, Node>& gold);
-  double get_node_score(Node& node, std::tr1::unordered_map<int, Node>& gold);
-  double get_edge_score(Node& prev_node, Node& node, std::tr1::unordered_map<int, Node>& gold);
+  bool _is_correct_node(Node& node, std::unordered_map<int, Node>& gold);
+  bool _is_correct_edge(Node& prev_node, Node& node, std::unordered_map<int, Node>& gold);
+  double get_node_score(Node& node, std::unordered_map<int, Node>& gold);
+  double get_edge_score(Node& prev_node, Node& node, std::unordered_map<int, Node>& gold);
   double _penalty;
 
 };

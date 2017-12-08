@@ -44,7 +44,7 @@ void SVM::regularize_all(){
   //LOG(DEBUG) << "trainig done";
   std::vector<std::string> feat_vec;
   feat_vec.reserve(_weights.size());
-  std::tr1::unordered_map<std::string, double>::iterator it;
+  std::unordered_map<std::string, double>::iterator it;
   for(it=_weights.begin();it!=_weights.end();++it){
     feat_vec.push_back(it->first);
   }

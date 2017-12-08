@@ -1,0 +1,3 @@
+[submodule "third_party/marisa-trie"]
+	path = third_party/marisa-trie
+	url = https://github.com/s-yata/marisa-trie.git

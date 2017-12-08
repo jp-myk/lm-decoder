@@ -7,7 +7,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
-#include <tr1/unordered_map>
+#include <unordered_map>
 #include "classifier/Model.h"
 
 class Perceptron : public Model{
@@ -28,7 +28,7 @@ class Perceptron : public Model{
   void save(const char *outmodel);
   void read(const char* filename);
  private:
-  std::tr1::unordered_map<std::string,double> _weights;
+  std::unordered_map<std::string,double> _weights;
   double _learning_rate;
   int sign(int x); // sign関数
   int _verbose;

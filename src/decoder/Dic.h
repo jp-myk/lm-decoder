@@ -8,13 +8,13 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
-#include <tr1/unordered_map>
-#include <tr1/unordered_set>
+#include <unordered_map>
+#include <unordered_set>
 #include "marisa.h"
 #include "utils/StringUtil.h"
 #include "utils/LOG.h"
 using namespace std;
-using namespace std::tr1;
+
 
 class Dic{
  public:
@@ -23,8 +23,8 @@ class Dic{
   void read(const char *filename);
   void save(const char *filename);
   void update_trie(const char *key, const char* feature);
-  vector<string> getRead(string &key);
-  vector<string> lookupDic(const std::string &str);
+  std::vector<std::string> getRead(string &key);
+  std::vector<std::string> lookupDic(const std::string &str);
   bool is_exist(const std::string& str){
     return query2tokens.count(str)>0 ? true : false;
   }
@@ -41,8 +41,8 @@ class Dic{
   void build_trie();
   marisa::Trie trie;
   marisa::Keyset keyset;
-  std::tr1::unordered_map<std::string, std::tr1::unordered_set<std::string> > query2tokens;
-  std::tr1::unordered_set<std::string> feat;
+  std::unordered_map<std::string, std::unordered_set<std::string> > query2tokens;
+  std::unordered_set<std::string> feat;
 };
 
 

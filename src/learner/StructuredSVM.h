@@ -7,15 +7,14 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
-#include <tr1/unordered_map>
+#include <unordered_map>
 #include "learner/ILearner.h"
 #include "decoder/SVMDecoder.h"
 #include "classifier/SVM.h"
 #include "utils/LOG.h"
 #include "utils/FileChunker.h"
 #define _DEBUG_ 1
-//using namespace std;
-//using namespace std::tr1;
+
 
 class StructuredSVM : public ILearner {
  public:
@@ -69,7 +68,7 @@ class StructuredSVM : public ILearner {
   void read(const char* filename);
 
  private:
-  std::tr1::unordered_map<int,Node> convert_to_gold_standard(Result& result);
+  std::unordered_map<int,Node> convert_to_gold_standard(Result& result);
   void checkUpdateDic(Result& correct_result);
 
   void update_parameters(Result& corr_result, 

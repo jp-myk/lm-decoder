@@ -3,7 +3,7 @@
 
 void Feature::save(const char* filename){
   FILE *fp;
-  std::tr1::unordered_map<std::string, double>::iterator it;
+  std::unordered_map<std::string, double>::iterator it;
   if ((fp = fopen(filename, "w")) == NULL) {
     printf("file open error!!\n");
     exit(EXIT_FAILURE);

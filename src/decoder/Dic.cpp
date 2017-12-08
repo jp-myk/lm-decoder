@@ -40,11 +40,11 @@ void Dic::save(const char *filename){
   //trie.save(filename);
   std::ofstream ofs;
   ofs.open(filename);
-  std::tr1::unordered_map<std::string, std::tr1::unordered_set<std::string> >::iterator it;
-  std::tr1::unordered_set<std::string>::iterator it_set;
+  std::unordered_map<std::string, std::unordered_set<std::string> >::iterator it;
+  std::unordered_set<std::string>::iterator it_set;
   for(it=query2tokens.begin();it!=query2tokens.end();++it){
     std::string key=(*it).first;
-    std::tr1::unordered_set< std::string > feat_set = (*it).second;
+    std::unordered_set< std::string > feat_set = (*it).second;
     for(it_set=feat_set.begin();it_set!=feat_set.end();++it_set){
       ofs << key << "\t" << *it_set << std::endl;
     }

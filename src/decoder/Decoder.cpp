@@ -9,7 +9,7 @@ Lattice& Decoder::generate_lattice(Dic* dic, const std::string& str){
     std::vector<Node> nodes;
     std::vector<std::string> words,reads;
     std::vector<std::string>::iterator it, it_r; // words,reads's iterator
-    std::tr1::unordered_set<std::string> word_set,read_set;
+    std::unordered_set<std::string> word_set,read_set;
     
     if(i==0){
       Node bos("<s>", "", 1); // change for SLM
@@ -131,8 +131,8 @@ NBestResult Decoder::backward_a_star(Lattice& word_lattice, int n_best){
   NBestResult nbestResult;
   //std::priority_queue<Path, std::vector<Path>, std::greater<Path> > que;
   std::priority_queue<Arc, std::vector<Arc> > que;
-  std::tr1::unordered_map<int, Arc> arcMap;
-  std::tr1::unordered_map<int, Node> stateMap;
+  std::unordered_map<int, Arc> arcMap;
+  std::unordered_map<int, Node> stateMap;
 
   int state_id = 0;
   int nbest_no = 0;

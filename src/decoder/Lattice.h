@@ -6,13 +6,13 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstring>
-#include <tr1/unordered_set>
+#include <unordered_set>
 #include "utils/StringUtil.h"
 #include "utils/LOG.h"
 #define _DEBUG_ 0
 
 using namespace std;
-//using namespace std::tr1;
+
 
 class Node{
  public:
@@ -96,8 +96,8 @@ class Lattice{
  public:
   ;
   //int stateID;
-  //std::tr1::unordered_map<int, Node> forward; // stateID -> node
-  //std::tr1::unordered_map<int, Node> backward;
+  //std::unordered_map<int, Node> forward; // stateID -> node
+  //std::unordered_map<int, Node> backward;
   Node*        operator[](int i)       { return (Node*)_graph[i]; }
   Node* const  operator[](int i) const { return (Node*)_graph[i]; }
   

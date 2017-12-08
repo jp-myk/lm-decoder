@@ -10,7 +10,7 @@
 #include <vector>
 #include <map>
 #include <set>
-#include <tr1/unordered_map>
+#include <unordered_map>
 #include <iostream>
 #include <fstream>
 #include <algorithm>
@@ -20,15 +20,11 @@
 #include "utils/StringUtil.h"
 //#include "darts.h"
 #define MAX_NGRAM 10
-//using namespace std;
-//using namespace std::tr1;
-
-
 
 typedef int WordID;
 typedef std::vector<std::string> Vocab;
-typedef std::tr1::unordered_map<std::string, int> WORD2ID;
-typedef std::tr1::unordered_map<int, std::string> ID2WORD;
+typedef std::unordered_map<std::string, int> WORD2ID;
+typedef std::unordered_map<int, std::string> ID2WORD;
 
 struct NgramNode{
   NgramNode(WordID _id=-1, double _prob=0.0, double _alpha=0.0){

@@ -10,29 +10,28 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
-#include <tr1/unordered_map>
-#include <tr1/unordered_set>
+#include <unordered_map>
+#include <unordered_set>
 #include "utils/StringUtil.h"
 #include "utils/LOG.h"
 
 using namespace std;
-using namespace std::tr1;
 
 
 class Model{
  public:
   Model(){};
   virtual ~Model(){};
-  std::tr1::unordered_map<std::string, double> _weights;
+  std::unordered_map<std::string, double> _weights;
   virtual void fit(const std::vector<std::string>& feat_vec, double label){};
   virtual double classify(const std::vector<std::string>& feat_vec);
   virtual double get_score(const std::vector<std::string>& feat_vec);
   virtual void save(const char* filename);
   virtual void read(const char* filename);
   void save(const char* filename,
-	    const std::tr1::unordered_map<std::string, double>& weights);
+	    const std::unordered_map<std::string, double>& weights);
   void read(const char* filename,
-	    std::tr1::unordered_map<std::string, double>& weights);
+	    std::unordered_map<std::string, double>& weights);
   
 };
 

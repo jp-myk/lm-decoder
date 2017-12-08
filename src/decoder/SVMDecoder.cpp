@@ -1,6 +1,6 @@
 #include "decoder/SVMDecoder.h"
 
-bool SVMDecoder::_is_correct_node(Node& node, std::tr1::unordered_map<int,Node>& gold){
+bool SVMDecoder::_is_correct_node(Node& node, std::unordered_map<int,Node>& gold){
   Node n=gold[node.endpos];
   if(node.word == n.word){
     return true;
@@ -8,7 +8,7 @@ bool SVMDecoder::_is_correct_node(Node& node, std::tr1::unordered_map<int,Node>&
     return false;
   }
 }
-bool SVMDecoder::_is_correct_edge(Node& prev_node, Node& node, std::tr1::unordered_map<int, Node>& gold){
+bool SVMDecoder::_is_correct_edge(Node& prev_node, Node& node, std::unordered_map<int, Node>& gold){
   if(_is_correct_node(node, gold) && _is_correct_node(prev_node, gold)){
     return true;
   }else{
@@ -16,7 +16,7 @@ bool SVMDecoder::_is_correct_edge(Node& prev_node, Node& node, std::tr1::unorder
   }
 }
 
-double SVMDecoder::get_node_score(Node& node, std::tr1::unordered_map<int, Node>& gold){
+double SVMDecoder::get_node_score(Node& node, std::unordered_map<int, Node>& gold){
   double score=0.0;
   std::string feat;
 
@@ -29,7 +29,7 @@ double SVMDecoder::get_node_score(Node& node, std::tr1::unordered_map<int, Node>
   return score;
 }
 
-double SVMDecoder::get_edge_score(Node& prev_node, Node& node, std::tr1::unordered_map<int, Node>& gold){
+double SVMDecoder::get_edge_score(Node& prev_node, Node& node, std::unordered_map<int, Node>& gold){
   double score=0.0;
   if (prev_node.empty()) return 0.0;
   if(_is_correct_edge(prev_node, node, gold)){
@@ -43,7 +43,7 @@ double SVMDecoder::get_edge_score(Node& prev_node, Node& node, std::tr1::unorder
 
 
 
-Lattice& SVMDecoder::viterbi_with_penalty(Lattice &word_lattice, std::tr1::unordered_map<int,Node>& gold){
+Lattice& SVMDecoder::viterbi_with_penalty(Lattice &word_lattice, std::unordered_map<int,Node>& gold){
   std::vector<std::pair<std::string, std::string> > result;
   for(size_t i=0;i<word_lattice.sizeOfFrame();i++){ // loop frame
     //std::vector<Node>::iterator node;

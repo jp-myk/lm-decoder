@@ -7,11 +7,10 @@
 #include <vector>
 #include <algorithm>
 #include <queue>
-#include <tr1/unordered_map>
+#include <unordered_map>
 #define _DEBUG_ 0
 //typedef vector<string, string> 
 using namespace std;
-using namespace std::tr1;
 
 
 

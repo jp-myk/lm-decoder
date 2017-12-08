@@ -1,5 +1,5 @@
 #ifndef _NGRAM_LM_DECODER_H_
-#define _NGRAM_LM_DECODER_H
+#define _NGRAM_LM_DECODER_H_
 #include "ngram/SLM.h"
 #include "decoder/Decoder.h"
 #include <string>
@@ -7,7 +7,7 @@
 #include <algorithm>
 #include <queue>
 #include <cstdlib>
-#include <tr1/unordered_map>
+#include <unordered_map>
 
 class NgramLMDecoder : public Decoder{
  private:
