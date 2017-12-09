@@ -11,7 +11,6 @@ MARISA_INCLUDE=-I$(MARISA_PATH)/local/include
 LIBS=$(MARISA_LIB)  # install marisa trie to this path
 INCLUDES= -I./util -I./src $(MARISA_INCLUDE)
 LDFLAGS = 
-OBJS = src/yomifuyoLM.o
 TARGETS = deplibs train_pc train_svm decoder lmdecoder
 
 
