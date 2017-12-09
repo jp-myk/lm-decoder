@@ -1,4 +1,6 @@
-#!/bin/make
+#
+# Makefile
+#
 PWD=$(shell pwd)
 
 CC = gcc
