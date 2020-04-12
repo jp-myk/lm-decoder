@@ -1,5 +1,52 @@
 #include "learner/StructuredPerceptron.h"
 
+StructuredPerceptron::StructuredPerceptron():
+  _model(nullptr),
+  _dic(nullptr)
+  {}
+
+StructuredPerceptron::~StructuredPerceptron(){
+  if(_model!=nullptr) delete _model;
+  if(_dic!=nullptr) delete _dic;
+  _model = nullptr;
+  _dic   = nullptr;
+}
+
+void StructuredPerceptron::setDic(const char* dicfile){
+  _dic = new Dic();
+  _dic->read(dicfile);
+  decoder.setDic(_dic);
+}
+
+void StructuredPerceptron::setModel(const char* modelfile){
+  _model = new Perceptron();
+  _model->read(modelfile);
+  decoder.setModel(_model);
+}
+
+void StructuredPerceptron::learn(const char* trainfile, const char* outdir,
+				 int chunk_num,int iter_num){
+  FileChunker fileChunker;
+  std::vector<std::string>::iterator it;
+  // make chunk data from large data
+  fileChunker.splitFile(trainfile, outdir, chunk_num);
+  
+  
+  for(int it_n=0;it_n<iter_num;it_n++){   // loop iteration
+    for(int i=0;i<fileChunker.getChunkNum();i++){ // loop chunk
+      std::vector<std::string> samples = fileChunker.getChunkSamples();
+      //LOG(DEBUG) << "sample size=" << samples.size();
+      for(it=samples.begin();it!=samples.end();it++){ // loop sample
+	if(*it=="") continue;
+	learn(*it); // train	  
+      }
+    }
+    print_info(); 
+    update_iter_count();
+    fileChunker.shuffleChunk();
+  }
+}
+
 void StructuredPerceptron::learn(const std::string& input){
   Result corr_result = ILearner::parseLine(input); 
   checkUpdateDic(corr_result);

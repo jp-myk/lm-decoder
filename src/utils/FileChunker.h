@@ -1,3 +1,7 @@
+/**
+ * @file FileChunker.h
+ * @brief Split and get a chunk data for large size file
+ */
 #ifndef _FILE_CHUNKER_H_
 #define _FILE_CHUNKER_H_
 #include "StringUtil.h"
@@ -13,42 +17,16 @@
 
 class FileChunker{
  public:
-  FileChunker(){
-    //_num_sample     = 0;
-    _num_split_file = 0;
-    _num_split_line = 0;
-    _rand_seed = RANDOM_SEED;
-    std::srand(_rand_seed++);
-  }
-  ~FileChunker(){
-    delete [] file_idx;
-    //delete [] line_idx;
-  
-
-  }
+  FileChunker();
+  ~FileChunker();
   int splitFile(const char* infile,const char* outdir, int n_split_line);
-  int getChunkNum(){
-    return _num_split_file;
-  }
-  void shuffleChunk(){
-    std::srand(_rand_seed++);
-    _curr_file_id=0;
-    shuffle<int>(file_idx,_num_split_file);
-  }
-  std::string basename(const std::string& path) {
-    return path.substr(path.find_last_of('/') + 1);
-  }
+  int getChunkNum();
+  void shuffleChunk();
+  std::string basename(const std::string& path);
   std::vector<std::string> getChunkSamples();
-
   //std::string getRandomSample();
-  template<class T> void shuffle(T ary[],int size){
-    for(int i=0;i<size;i++){
-      int j = rand()%size;
-      T t = ary[i];
-      ary[i] = ary[j];
-      ary[j] = t;
-    }
-  }
+  template<class T> void shuffle(T ary[],int size);
+
  private:
   std::string buf;
   std::string _outdir;

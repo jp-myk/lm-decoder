@@ -1,5 +1,32 @@
 #include "decoder/Decoder.h"
+Decoder::Decoder():
+  _delimiter(":"),
+  _dic(nullptr),
+  _model(nullptr){
+}
 
+Decoder::~Decoder(){
+  if(_model != nullptr) delete _model;
+  if(_dic != nullptr) delete _dic;
+  _model = nullptr;    
+  _dic   = nullptr;
+};
+
+void Decoder::setDic(const char* dicfile){
+  _dic = new Dic();
+  _dic->read(dicfile);
+}
+
+void Decoder::setModel(const char* modelfile){
+  _model = new Model();
+  _model->read(modelfile);
+}
+void Decoder::setDic(Dic *dic){
+  _dic = dic;
+}
+void Decoder::setModel(Model *model){
+  _model = model;
+}
 
 Lattice& Decoder::generate_lattice(Dic* dic, const std::string& str){
   int len = (int)strlen_utf8(str);
@@ -101,7 +128,7 @@ Result Decoder::backtrace(const Lattice &word_lattice, int n_best){
   std::vector<std::string> surfaceList;
   std::vector<std::string> readingList;
 
-  Node *node   = word_lattice[word_lattice.sizeOfFrame()-1][0].prev; // eos.prev
+  const Node *node   = word_lattice[word_lattice.sizeOfFrame()-1][0].prev; // eos.prev
   double score =  word_lattice[word_lattice.sizeOfFrame()-1][0].score; // eos.score
   // traverse
   while(node->is_bos() == false){
@@ -125,6 +152,23 @@ bool operator>(const Arc& a, const Arc& b){
 bool operator<(const Arc& a, const Arc& b){
   return a.f < b.f;
 }
+
+Result Decoder::decode(const std::string& input){
+  Result result;
+  Lattice& word_lattice = generate_lattice(_dic,input);
+  Lattice& hyp_lattice = viterbi(word_lattice);
+  //_word_lattice.dump();
+  result = backtrace(hyp_lattice);
+  return result;
+}
+
+NBestResult Decoder::getNBestHyp(int num_nbest){
+  NBestResult nbestResult;
+  nbestResult= backward_a_star(_word_lattice,num_nbest);
+  int n_best = std::min(num_nbest,(int)nbestResult.size());
+  return nbestResult;
+}
+
 
 // long fx;  // f(x) = g(x) + h(x): cost function for A* search
 NBestResult Decoder::backward_a_star(Lattice& word_lattice, int n_best){

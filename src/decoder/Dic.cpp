@@ -1,5 +1,9 @@
 #include "decoder/Dic.h"
 
+Dic::Dic(){}
+
+Dic::~Dic(){}
+
 void Dic::read(const char *filename){
   std::ifstream ifs;
   std::string line;
@@ -53,7 +57,6 @@ void Dic::save(const char *filename){
   
 }
 
-
 vector<string> Dic::lookupDic(const string &str){
   vector<string> retval;
   marisa::Agent agent;
@@ -70,4 +73,17 @@ vector<string> Dic::lookupDic(const string &str){
 vector<string> Dic::getRead(std::string& key){
   std::vector<std::string> retval(query2tokens[key].begin(),query2tokens[key].end() );
   return retval;
+}
+
+bool Dic::is_exist(const std::string& str){
+  return query2tokens.count(str)>0 ? true : false;
+}
+
+bool Dic::is_exist(const std::string& word, const std::string& read){
+  if(query2tokens.count(word)>0){
+    if(query2tokens[ word ].count(read)>0){
+      return true;
+    }
+  }
+  return false;
 }

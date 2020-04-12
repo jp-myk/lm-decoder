@@ -12,18 +12,12 @@
 
 class Perceptron : public Model{
  public:
- Perceptron():_verbose(false){
-    _learning_rate = 0.1;
-  };
-  virtual ~Perceptron(){};
-  void setModel(const char* modelfile){
-    Model::read(modelfile,_weights);
-  }
+  Perceptron();
+  virtual ~Perceptron();
+  void setModel(const char* modelfile);
   void fit(const std::vector<std::string>& feat_vec, double label);
   double classify(const std::vector<std::string> &feat_vec);
-  double get_score(const std::vector<std::string> &feat_vec){
-    return classify(feat_vec);
-  }
+  double get_score(const std::vector<std::string> &feat_vec);
   void save(const char* outdic, const char *outmodel);
   void save(const char *outmodel);
   void read(const char* filename);

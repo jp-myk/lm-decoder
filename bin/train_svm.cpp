@@ -5,7 +5,7 @@ int main(int argc, char *argv[]){
   char *train_corpus = argv[2];
   char *output_model = argv[3];  // if already exist, embedded training
   char *output_dic = argv[4];
-  char *outdir = "tmp_dir";
+  const char *outdir = "tmp_dir";
   int iter_num = 10;
   int chunk_num = 500;
 

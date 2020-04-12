@@ -1,3 +1,4 @@
+
 #ifndef _LATTICE_H_
 #define _LATTICE_H_
 
@@ -37,8 +38,8 @@ class Node{
     g = 0.0;
     f = 0.0;
     h = 0.0;
-    prev = (Node*)NULL;
-    next = (Node*)NULL;
+    prev = nullptr;
+    next = nullptr;
   };
   int length(){return strlen_utf8(word);};
   //~Node(){ free(prev);};
@@ -98,63 +99,27 @@ class Lattice{
   //int stateID;
   //std::unordered_map<int, Node> forward; // stateID -> node
   //std::unordered_map<int, Node> backward;
-  Node*        operator[](int i)       { return (Node*)_graph[i]; }
-  Node* const  operator[](int i) const { return (Node*)_graph[i]; }
-  
+  //Node*        operator[](int i)       { return (Node*)_graph[i]; }
+  //Node* const  operator[](int i) const { return (Node*)_graph[i]; }
+  Node* operator[](int i);
+  Node* const operator[](int i) const;
 
   void addFrame(int n_frame);
   void expandNode(int n_frame, const std::vector<Node>& nodes);
   void addNode(size_t n_frame, const Node& node);
   
-  Lattice(){
-    _graph = (Node**)NULL;
-    _node_size = (size_t*)NULL;
-    _frame_size = 0;
-  };
-  Lattice(size_t frame_size){
-    _graph = (Node**)NULL;
-    _node_size = (size_t*)NULL;
-    _frame_size = 0;
-    resize(frame_size);
-  };
-  
+  Lattice();
+  Lattice(size_t frame_size);
+  ~Lattice();
+  Lattice& operator=(const Lattice& o);
   void resize(size_t frame_size);
   void clear();
-
-  ~Lattice(){
-    clear();
-  };
-
-  Lattice& operator=(const Lattice& o){
-    _graph = o._graph;
-    _frame_size = o._frame_size;
-    _node_size = o._node_size;
-    return *this;
-  }
-
-  int get_prev_pos(Node& node){
-    if(node.is_eos()){
-      int startpos = node.endpos - 2;
-      return startpos;
-      
-    }else if(node.is_bos()){
-      return -1;
-
-    }else{
-      int startpos=node.endpos-node.length()-1;
-      return startpos;
-    }
-  };
-  size_t sizeOfFrame()const{
-    return _frame_size;
-  }
-  size_t sizeOfNodePerFrame(size_t n_frame)const{
-    return _node_size[n_frame];
-  }
+  int get_prev_pos(Node& node);
+  size_t sizeOfFrame()const;
+  size_t sizeOfNodePerFrame(size_t n_frame)const;
   void dump();
   
  private:
-  ;
   Graph _graph;
   size_t _frame_size;
   size_t *_node_size;

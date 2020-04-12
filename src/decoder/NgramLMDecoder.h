@@ -20,28 +20,10 @@ class NgramLMDecoder : public Decoder{
   double get_lm_score(const Node *node, int ngram_size);
   
  public:
-  NgramLMDecoder(){
-    _delimiter=":";
-    _debug = false;
-    _beam_size = 30;
-    _dic = (Dic*)NULL;
-    //_slm = (SLM*)NULL;
-    
-  };
-  virtual ~NgramLMDecoder(){
-    //if(_model!=(SLM*)NULL) delete _slm;
-    if(_dic!=(Dic*)NULL) delete _dic;
-    //_model = (SLM*)NULL;    
-    _dic   = (Dic*)NULL;
-  };
-  void setDic(const char* dicfile){
-    _dic = new Dic();
-    _dic->read(dicfile);
-  }
-  void setModel(const char* lmfile){
-    _slm.readLM(lmfile);
-  }
-  
+  NgramLMDecoder();
+  virtual ~NgramLMDecoder();
+  void setDic(const char* dicfile);
+  void setModel(const char* lmfile);
   Result decode(const std::string& str);
   Lattice& forward(const Lattice &word_lattice); // beam search
   Result backtrace(const Lattice &hyp_lattice, int n_best=0);

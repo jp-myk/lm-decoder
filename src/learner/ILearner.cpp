@@ -1,9 +1,12 @@
 #include "learner/ILearner.h"
 
-/**
- * param  string: 明日/あした は/は 晴れ/はれ
- * return vector: [ [明日,あした], [は,は], [晴れ,はれ] ]
- */
+ILearner::ILearner():
+  _delimiter(":"),
+  _num_correct(0),
+  _num_sample(0),
+  _num_iter(1)
+{}
+
 Result ILearner::parseLine(const std::string& line){
   Result result;
   std::vector<std::string> surfaceList;
@@ -27,11 +30,6 @@ Result ILearner::parseLine(const std::string& line){
   return result;
 }
 
-/**
- * @brief  <表記,読み>pair vectorから読みを返す
- * @param  sentence <表記, 読み>pairのvector
- * @return 表記文字列
- */
 std::string ILearner::joinKeyStr(Result& result){
   std::string retval;
   for(size_t i=0;i<result.surfaceList.size();i++){
@@ -40,11 +38,6 @@ std::string ILearner::joinKeyStr(Result& result){
   return retval;
 }
 
-/*
- * @brief   pair<表記,読み>のvector型を<Node>のvector型に変換
- * @param   pair<表記,読み> vector配列
- * @return  pair<Node> vector配列
- */
 std::vector<Node> ILearner::convert_to_nodes(Result& result){
   std::vector<Node> retval;
   std::vector< std::pair<std::string, std::string> >::iterator it;
@@ -66,4 +59,22 @@ std::vector<Node> ILearner::convert_to_nodes(Result& result){
   eos.prev = &prev;
   retval.push_back(eos);
   return retval;
+}
+
+void ILearner::update_sample_count(){
+  _num_sample++;
+}
+
+void ILearner::update_correct_count(){
+  _num_correct++;
+};
+
+void ILearner::update_iter_count(){
+  _num_correct = 0;
+  _num_sample  = 0;
+  _num_iter++;
+};
+
+void ILearner::print_info(){
+  printf("iter=%d\taccuracy=%f\n", _num_iter,(float)_num_correct/_num_sample);
 }

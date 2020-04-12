@@ -1,4 +1,27 @@
 #include "decoder/NgramLMDecoder.h"
+NgramLMDecoder::NgramLMDecoder():
+  _delimiter(":"),
+  _debug(false),
+  _beam_size(30),
+  _dic(nullptr)
+{}
+
+NgramLMDecoder::~NgramLMDecoder(){
+  //if(_model!=(SLM*)NULL) delete _slm;
+  if(_dic != nullptr) delete _dic;
+  //_model = (SLM*)NULL;    
+  _dic   = nullptr;
+}
+
+void NgramLMDecoder::setDic(const char* dicfile){
+  _dic = new Dic();
+  _dic->read(dicfile);
+}
+
+void NgramLMDecoder::setModel(const char* lmfile){
+  _slm.readLM(lmfile);
+}
+
 
 Result NgramLMDecoder::decode(const std::string& str){
   Result result;
@@ -79,7 +102,7 @@ Lattice& NgramLMDecoder::forward(const Lattice &word_lattice){
 	current_frame_hyp_list.push_back(hyp_node);
 	// <s> uni-gram is not calculated because of large log probability .
       }else{
-	int prev_pos = node->get_prev_pos(); // trace prev history
+        int prev_pos = node->get_prev_pos(); // trace prev history
 	if(is_debug()){ LOG(DEBUG) << "prev pos=" << prev_pos; }
 	  
 	vector<Node>::iterator prev_node;

@@ -1,5 +1,20 @@
 #include "classifier/Perceptron.h"
 
+Perceptron::Perceptron():
+  _verbose(false),
+  _learning_rate(0.1)
+{}
+
+Perceptron::~Perceptron(){}
+
+void Perceptron::setModel(const char* modelfile){
+  Model::read(modelfile,_weights);
+}
+
+double Perceptron::get_score(const std::vector<std::string> &feat_vec){
+  return classify(feat_vec);
+}
+
 // w_{i+1} = w_{i} + y * x * learning_rate
 void Perceptron::fit(const std::vector<std::string> &feat_vec, double label){
   std::vector<std::string>::const_iterator feat = feat_vec.begin();

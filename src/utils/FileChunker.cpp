@@ -1,4 +1,15 @@
 #include "utils/FileChunker.h"
+FileChunker::FileChunker():
+  _num_split_file(0),
+  _num_split_line(0),
+  _rand_seed(RANDOM_SEED)
+{
+  std::srand(_rand_seed++);
+}
+
+FileChunker::~FileChunker(){
+  delete [] file_idx;
+}
 
 int FileChunker::splitFile(const char* infile, const char* outdir, int n_split_line){
   //int outfile_idx = 0;
@@ -64,6 +75,30 @@ int FileChunker::splitFile(const char* infile, const char* outdir, int n_split_l
   for(int i=0;i<_num_split_file;i++){file_idx[i]=i;}
   shuffleChunk();
   return _num_split_file;
+}
+
+int FileChunker::getChunkNum(){
+  return _num_split_file;
+}
+
+void FileChunker::shuffleChunk(){
+  std::srand(_rand_seed++);
+  _curr_file_id=0;
+  shuffle<int>(file_idx,_num_split_file);
+}
+
+std::string FileChunker::basename(const std::string& path) {
+  return path.substr(path.find_last_of('/') + 1);
+}
+
+//std::string getRandomSample();
+template<class T> void FileChunker::shuffle(T ary[],int size){
+  for(int i=0;i<size;i++){
+    int j = rand()%size;
+    T t = ary[i];
+    ary[i] = ary[j];
+    ary[j] = t;
+  }
 }
 
 std::vector<std::string> FileChunker::getChunkSamples(){

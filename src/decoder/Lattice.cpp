@@ -1,5 +1,36 @@
 #include "decoder/Lattice.h"
 
+Lattice::Lattice():
+  _graph(nullptr),
+  _node_size(nullptr),
+  _frame_size(0)
+{}
+
+Lattice::Lattice(size_t frame_size):
+  _graph(nullptr),
+  _node_size(nullptr),
+  _frame_size(0){
+  resize(frame_size);
+}
+
+Lattice::~Lattice(){
+  clear();
+}
+
+Node* Lattice::operator[](int i){
+  return (Node*)_graph[i];
+}
+
+Node* const Lattice::operator[](int i) const {
+  return (Node*)_graph[i];
+}
+
+Lattice& Lattice::operator=(const Lattice& o){
+    _graph = o._graph;
+    _frame_size = o._frame_size;
+    _node_size = o._node_size;
+    return *this;
+}
 
 void Lattice::addFrame(int n_frame){
   //std::cout << "addFrame::graph size=" << sizeof(_graph) << std::endl;
@@ -110,3 +141,24 @@ void Lattice::dump(){
   //return 0;
 }
 
+int Lattice::get_prev_pos(Node& node){
+  if(node.is_eos()){
+    int startpos = node.endpos - 2;
+    return startpos;
+    
+  }else if(node.is_bos()){
+    return -1;
+    
+  }else{
+    int startpos=node.endpos-node.length()-1;
+    return startpos;
+  }
+}
+
+size_t Lattice::sizeOfFrame()const{
+  return _frame_size;
+}
+
+size_t Lattice::sizeOfNodePerFrame(size_t n_frame)const{
+  return _node_size[n_frame];
+}

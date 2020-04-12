@@ -1,5 +1,18 @@
 #include "classifier/SVM.h"
 
+SVM::SVM():
+  _lambda(1.0e-22),
+  _penalty(0.5),
+  _learning_rate(0.1),
+  _updated_count(0)
+{}
+
+SVM::~SVM(){}
+
+void SVM::setModel(const char* modelfile){
+  read(modelfile);
+}
+
 double SVM::margin(const std::vector<std::string> &feat_vec,
 		   double label){
   double score = 0.0;
@@ -82,4 +95,12 @@ void SVM::save(const char *outmodel){
 
 void SVM::read(const char* filename){
   Model::read(filename,_weights);
+}
+
+int SVM::sign(int x){
+  return x>=0 ? 1 : -1;
+};
+
+double SVM::clip(double a, double b){
+  return sign(a)*std::max<double>(fabs(a)-b, 0);
 }

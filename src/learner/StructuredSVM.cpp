@@ -1,8 +1,52 @@
 #include "StructuredSVM.h"
 
+StructuredSVM::StructuredSVM():
+  _model(nullptr),
+  _dic(nullptr){}
 
-/*
- * StructuredSVM Fast FOBOS Learning
+StructuredSVM::~StructuredSVM(){
+  if(_model != nullptr) delete _model;
+  if(_dic != nullptr) delete _dic;
+  _model = nullptr;
+  _dic   = nullptr;
+}
+
+void StructuredSVM::setDic(const char* dicfile){
+  _dic = new Dic();
+  _dic->read(dicfile);
+  decoder.setDic(_dic);
+}
+
+void StructuredSVM::setModel(const char* modelfile){
+  _model = new SVM();
+  _model->read(modelfile);
+  decoder.setModel(_model);
+}
+
+void StructuredSVM::learn(const char* trainfile, const char* outdir, int chunk_num,int iter_num){
+  FileChunker fileChunker;
+  std::vector<std::string>::iterator it;
+  // make chunk data from large data
+  fileChunker.splitFile(trainfile, outdir, chunk_num);
+  
+  for(int it_n=0;it_n<iter_num;it_n++){   // loop iteration
+    for(int i=0;i<fileChunker.getChunkNum();i++){ // loop chunk
+      std::vector<std::string> samples = fileChunker.getChunkSamples();
+      for(it=samples.begin();it!=samples.end();it++){ // loop sample
+	if(*it=="") continue;
+	learn(*it); // train	  
+      }
+    }
+    print_info(); 
+    update_iter_count();
+    fileChunker.shuffleChunk();
+  }
+}
+
+
+
+/**
+ * @brief StructuredSVM Fast FOBOS Learning
  * 損失化項の計算
  * 正則化項の計算
  * 高速化=普通に計算するとパラメータ次元数求める必要があるが、必要な部分だけ求める。

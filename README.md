@@ -29,16 +29,16 @@ $ ./bin/train_svm sample_data/sample.dic sample_data/sample.txt svm.model svm.di
 [INFO] src/utils/FileChunker.cpp:39:splitFile: file=1   sample=1000
 [INFO] src/utils/FileChunker.cpp:39:splitFile: file=2   sample=1500
 [INFO] src/utils/FileChunker.cpp:54:splitFile: file=3   sample=1508
-iter=1  precision=0.306366
-iter=2  precision=0.534483
-iter=3  precision=0.784483
-iter=4  precision=0.896552
-iter=5  precision=0.930371
-iter=6  precision=0.947613
-iter=7  precision=0.976127
-iter=8  precision=0.982759
-iter=9  precision=0.988727
-iter=10 precision=0.996684
+iter=1  accuracy=0.306366
+iter=2  accuracy=0.534483
+iter=3  accuracy=0.784483
+iter=4  accuracy=0.896552
+iter=5  accuracy=0.930371
+iter=6  accuracy=0.947613
+iter=7  accuracy=0.976127
+iter=8  accuracy=0.982759
+iter=9  accuracy=0.988727
+iter=10 accuracy=0.996684
 [INFO] src/decoder/Dic.cpp:39:save: save dic=svm.dic
 [INFO] src/classifier/Model.cpp:30:save: save model=svm.model
 ```

@@ -1,8 +1,20 @@
-#include "ngram/SLM.h"
+#include "ngram/SLM.h"  
 
 int NgramNodeCompare(const void *n1, const void *n2){
   //  printf("%d - %d\n", ((NgramNode*)n1)->id, ((NgramNode*)n2)->id);
   return ((NgramNode*)n1)->id - ((NgramNode*)n2)->id;
+}
+
+SLM::SLM():
+  _debug(false)
+{}
+
+SLM::~SLM(){
+  int i;
+  for(i=0;i<_ngram_len;i++){
+     delete[] _nodes[i];
+  }
+  delete _nodes;
 }
 
 /*

@@ -1,6 +1,6 @@
 //----------------------------------
 //
-// Language Model Data Structure
+// Back-off Language Model Data Structure
 // ngram vector based on sorted array
 //
 //----------------------------------
@@ -69,21 +69,8 @@ class SLM{
   //int addNgram(vector<string> word_array, NgramNode *ng);
   bool _debug;
  public:
-  SLM(){
-    _debug=false;
-  };
-  ~SLM(){
-    int i;
-    for(i=0;i<_ngram_len;i++){
-      //for(int j=0;j<_ngram_size[i];j++){
-	//free(_nodes[i]+j);
-      //}
-      //free(_nodes[i]);
-      delete[] _nodes[i];
-    }
-    delete _nodes;
-  };
-  
+  SLM();
+  ~SLM();
   int readLM(const char *filename);
   int writeLM(char *filename);
   int getNgramLength();
