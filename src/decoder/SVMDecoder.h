@@ -1,5 +1,5 @@
 #ifndef _SVM_DECODER_H_
-#define _SVM_DECODER_H
+#define _SVM_DECODER_H_
 #include <climits>
 #include <string>
 #include <vector>
