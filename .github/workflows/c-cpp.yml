@@ -1,0 +1,21 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: make
+      run: make
+    - name: train
+      run: ./bin/train_svm sample_data/sample.dic sample_data/sample.txt svm.model svm.dic
+    - name: test
+      run: echo "平城京は奈良時代の日本の首都" | ./bin/decoder svm.dic svm.model 
