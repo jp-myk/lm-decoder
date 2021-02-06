@@ -15,8 +15,10 @@ jobs:
     - uses: actions/checkout@v2
     - name: make
       run: make deplibs && make -j
-    - name: test_decoding_with_ngram_model
+    - name: test_decoding_with_3gram_statistical_model
       run: echo "平城京は奈良時代の日本の首都" | ./bin/lmdecoder sample_data/sample.dic sample_data/sample.3gram.arpa 
+    - name: test_decoding_with_5gram_statistical_model
+      run: echo "平城京は奈良時代の日本の首都" | ./bin/lmdecoder sample_data/sample.dic sample_data/sample.5gram.arpa 
     - name: test_train_with_structured_svm
       run:  ./bin/train_svm sample_data/sample.dic sample_data/sample.txt svm.model svm.dic
     - name: test_decoding_with_svm_model
