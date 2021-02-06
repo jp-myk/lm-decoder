@@ -35,7 +35,7 @@ deplibs:$(MARISA_PATH)/local/lib/libmarisa.a
 
 $(MARISA_PATH)/local/lib/libmarisa.a:
 	git submodule update -i 
-	cd $(MARISA_PATH) && autoconf && $(shell ./configure --prefix=$(MARISA_PATH)/local) && make && make install
+	cd $(MARISA_PATH) && autoreconf --install && ./configure --prefix=$(MARISA_PATH)/local && make && make install
 
 make_data: 
 	wget -q -O sample_data/aozora.csv.gz  http://aozora-word.hahasoha.net/utf8/utf8_all.csv.gz
