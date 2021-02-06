@@ -1,30 +1,27 @@
 #ifndef _DECODER_H_
 #define _DECODER_H_
-#include "utils/StringUtil.h"
-#include "decoder/Feature.h"
-#include "decoder/IDecoder.h"
 #include <string>
 #include <vector>
 #include <algorithm>
 #include <queue>
 #include <unordered_map>
+#include <memory>
+#include "utils/StringUtil.h"
+#include "decoder/Feature.h"
+#include "decoder/IDecoder.h"
 #define _DEBUG_ 0
-//typedef vector<string, string> 
-using namespace std;
-
-
 
 class Decoder : public IDecoder{
  public:
   Lattice _word_lattice;
-  Dic *_dic;
-  Model *_model;
+  Dic* _dic;
+  Model* _model;
   Decoder();
   virtual ~Decoder();
-  void setDic(const char* dicfile);
-  void setModel(const char* modelfile);
-  void setDic(Dic *dic);
-  void setModel(Model *model);
+  int setDic(const char* dicfile);
+  int setModel(const char* modelfile);
+  int setDic(Dic* dic);
+  int setModel(Model* model);
   /**
    * @brief 1-Best Decode
    */
@@ -43,6 +40,8 @@ class Decoder : public IDecoder{
  private:
   Feature _feature;
   std::string _delimiter;
+  bool _loadDicFromFile;
+  bool _loadModelFromFile;
 };
 
 

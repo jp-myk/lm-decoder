@@ -1,5 +1,52 @@
 #include "decoder/SVMDecoder.h"
 
+SVMDecoder::SVMDecoder()
+  :_delimiter(":")
+  ,_loadDicFromFile(false)
+  ,_loadModelFromFile(false)
+  ,_dic(nullptr)
+  ,_model(nullptr)
+  ,_penalty(0.05){}
+
+SVMDecoder::~SVMDecoder() {
+  if(_loadModelFromFile && _model!=nullptr) {
+    delete _model;
+    _model = nullptr;    
+  }
+  if(_loadDicFromFile &&_dic!=nullptr) {
+    delete _dic;
+    _dic   = nullptr;
+  }
+}
+
+int SVMDecoder::setDic(const char* dicfile){
+  if (_dic != nullptr) return 1;
+  _dic = new Dic();
+  _dic->read(dicfile);
+  _loadDicFromFile = true;
+  return 0;
+}
+
+int SVMDecoder::setModel(const char* modelfile){
+  if (_model != nullptr) return 1;
+  _model = new SVM();
+  _model->read(modelfile);
+  _loadModelFromFile = true;
+  return 0;
+}
+
+int SVMDecoder::setDic(Dic* dic){
+  if (_dic != nullptr) return 1;
+  _dic = dic;
+  return 0;
+}
+
+int SVMDecoder::setModel(SVM* model){
+  if (_model != nullptr) return 1;
+  _model =model;
+  return 0;
+}
+
 bool SVMDecoder::_is_correct_node(Node& node, std::unordered_map<int,Node>& gold){
   Node n=gold[node.endpos];
   if(node.word == n.word){

@@ -15,11 +15,11 @@ class ILearner{
  public:
   ILearner();
   virtual ~ILearner(){};
-  virtual void setDic(const char* dicfile){}
-  virtual void setModel(const char* modelfile){}
+  virtual int setDic(const char* dicfile){}
+  virtual int setModel(const char* modelfile){}
   virtual void learn(const std::string& input){};
-  virtual void save(const char* outdic, const char *outmodel){};
-  virtual void read(const char* filename){};
+  virtual int save(const char* outdic, const char *outmodel){};
+  virtual int read(const char* filename){};
   // private:
   //double learning_rate;
   virtual void update_parameters(Result &corr_result, 

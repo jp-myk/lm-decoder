@@ -8,6 +8,7 @@
 #include <iostream>
 #include <fstream>
 #include <unordered_map>
+#include <memory>
 #include "learner/ILearner.h"
 #include "decoder/SVMDecoder.h"
 #include "classifier/SVM.h"
@@ -20,12 +21,12 @@ class StructuredSVM : public ILearner {
  public:
   StructuredSVM();
   virtual ~StructuredSVM();
-  void setDic(const char* dicfile);
-  void setModel(const char* modelfile);
+  int setDic(const char* dicfile);
+  int setModel(const char* modelfile);
   void learn(const char* trainfile, const char* outdir, int chunk_num,int iter_num);
   void learn(const std::string& corr_sentnece);
-  void save(const char* outdic, const char *outmodel);
-  void read(const char* filename);
+  int save(const char* outdic, const char *outmodel);
+  int read(const char* filename);
 
  private:
   std::unordered_map<int,Node> convert_to_gold_standard(Result& result);
@@ -42,10 +43,9 @@ class StructuredSVM : public ILearner {
   void regularize_node(Node& node);
   void regularize_edge(Node& prev_node, Node& node);
   SVMDecoder decoder;
-  Lattice *_lattice;
-  Dic *_dic;
   Feature _feature;
-  SVM *_model;
+  std::unique_ptr<Dic> _dic;
+  std::unique_ptr<SVM> _model;
 };
 
 

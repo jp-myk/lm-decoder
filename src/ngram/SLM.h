@@ -79,12 +79,12 @@ class SLM{
   double getProb(std::vector<int>& vec, int len);  // return Prob with BOW
   double getProb(std::string& str, int len);  // return Prob with BOW
   double getPPL(std::vector<std::string>& word_array, int order);
-  double getEntropy(std::vector<string>& vec, int len);  // return Prob with BOW
+  double getEntropy(std::vector<std::string>& vec, int len);  // return Prob with BOW
   bool isNode(std::vector<std::string>& vec);     // return existing ngramNode or not
   double getBOW(std::vector<std::string>& vec);   // return BackOff Weight
   
-  vector<std::string> dumpNgram(int len);
-  vector<std::string> getVocab();
+  std::vector<std::string> dumpNgram(int len);
+  std::vector<std::string> getVocab();
   int getWordID(std::string& word);
   void debug(){_debug=false;}
 };

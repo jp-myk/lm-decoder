@@ -7,25 +7,26 @@ NgramLMDecoder::NgramLMDecoder():
 {}
 
 NgramLMDecoder::~NgramLMDecoder(){
-  //if(_model!=(SLM*)NULL) delete _slm;
-  if(_dic != nullptr) delete _dic;
-  //_model = (SLM*)NULL;    
+  if(_dic != nullptr) _dic.reset();
   _dic   = nullptr;
 }
 
-void NgramLMDecoder::setDic(const char* dicfile){
-  _dic = new Dic();
-  _dic->read(dicfile);
+int NgramLMDecoder::setDic(const char* dicfile){
+  if (_dic) return 1;
+  _dic = std::unique_ptr<Dic>(new Dic());
+  if (_dic->read(dicfile) != 0) return 0;
+  return 0;
 }
 
-void NgramLMDecoder::setModel(const char* lmfile){
+int NgramLMDecoder::setModel(const char* lmfile){
   _slm.readLM(lmfile);
+  return 0;
 }
 
 
 Result NgramLMDecoder::decode(const std::string& str){
   Result result;
-  Lattice &word_lattice = generate_lattice(_dic,str);
+  Lattice &word_lattice = generate_lattice(_dic.get(),str);
   //_word_lattice.dump();
   Lattice &hyp_lattice = forward(word_lattice);
   result = backtrace(hyp_lattice);
@@ -105,7 +106,7 @@ Lattice& NgramLMDecoder::forward(const Lattice &word_lattice){
         int prev_pos = node->get_prev_pos(); // trace prev history
 	if(is_debug()){ LOG(DEBUG) << "prev pos=" << prev_pos; }
 	  
-	vector<Node>::iterator prev_node;
+	std::vector<Node>::iterator prev_node;
 	for(size_t k=0;k<_hyp_lattice.sizeOfNodePerFrame(prev_pos);k++){
 	  Node hyp_node(node->word, node->read, node->endpos);
 	  hyp_node.score = 0.0;

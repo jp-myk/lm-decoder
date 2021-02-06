@@ -14,6 +14,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: make
-      run: make
-    - name: test
+      run: make -j
+    - name: test_decoding_with_ngram_model
       run: echo "平城京は奈良時代の日本の首都" | ./bin/lmdecoder sample_data/sample.dic sample_data/sample.3gram.arpa 
+    - name: test_train_with_structured_svm
+      run:  ./bin/train_svm sample_data/sample.dic sample_data/sample.txt svm.model svm.dic
+    - name: test_decoding_with_svm_model
+      run: echo "平城京は奈良時代の日本の首都" | ./bin/decoder svm.dic svm.model 

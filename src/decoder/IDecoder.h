@@ -2,16 +2,17 @@
 #define _INTERFACE_DECODER_H_
 #include <string>
 #include <vector>
+#include <memory>
 #include "classifier/Model.h"
 #include "decoder/Dic.h"
 #include "decoder/Lattice.h"
-using namespace std;
 
 struct Result{
   std::vector<std::string> surfaceList;
   std::vector<std::string> readingList;
   double score;
 };
+
 typedef std::vector<Result> NBestResult;
 
 struct Arc{
@@ -30,10 +31,10 @@ class IDecoder{
  public:
   IDecoder():_debug(false){};
   virtual ~IDecoder(){};
-  virtual void setDic(const char* dicfile) = 0;
-  virtual void setModel(const char* modelfile) = 0;
-  virtual void setDic(Dic* dic) = 0;
-  virtual void setModel(Model* model) = 0;
+  virtual int setDic(const char* dicfile) = 0;
+  virtual int setModel(const char* modelfile) = 0;
+  virtual int setDic(Dic* dic) = 0;
+  virtual int setModel(Model* model) = 0;
   virtual Lattice& generate_lattice(Dic* dic, const std::string& str)=0;
   virtual Lattice& viterbi(Lattice &lattice) = 0;
   virtual NBestResult backward_a_star(Lattice& lattice, int n_best=100) = 0;

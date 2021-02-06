@@ -1,31 +1,46 @@
 #include "decoder/Decoder.h"
-Decoder::Decoder():
-  _delimiter(":"),
-  _dic(nullptr),
-  _model(nullptr){
-}
+Decoder::Decoder()
+  :_delimiter(":")
+  ,_loadDicFromFile(false)
+  ,_loadModelFromFile(false)
+  ,_dic(nullptr)
+  ,_model(nullptr){}
 
 Decoder::~Decoder(){
-  if(_model != nullptr) delete _model;
-  if(_dic != nullptr) delete _dic;
-  _model = nullptr;    
-  _dic   = nullptr;
+  if(_loadModelFromFile && _model!=nullptr) {
+    delete _model;
+    _model = nullptr;    
+  }
+  if(_loadDicFromFile &&_dic!=nullptr) {
+    delete _dic;
+    _dic   = nullptr;
+  }
 };
 
-void Decoder::setDic(const char* dicfile){
+int Decoder::setDic(const char* dicfile){
+  if (_dic != nullptr) return 1;
   _dic = new Dic();
   _dic->read(dicfile);
+  _loadDicFromFile = true;
+  return 0;
 }
 
-void Decoder::setModel(const char* modelfile){
+int Decoder::setModel(const char* modelfile){
+  if (_model != nullptr) return 1;
   _model = new Model();
   _model->read(modelfile);
+  _loadModelFromFile = true;
+  return 0;
 }
-void Decoder::setDic(Dic *dic){
+int Decoder::setDic(Dic* dic){
+  if (_dic != nullptr) return 1;
   _dic = dic;
+  return 0;
 }
-void Decoder::setModel(Model *model){
+int Decoder::setModel(Model* model){
+  if (_model != nullptr) return 1;
   _model = model;
+  return 0;
 }
 
 Lattice& Decoder::generate_lattice(Dic* dic, const std::string& str){
@@ -47,15 +62,17 @@ Lattice& Decoder::generate_lattice(Dic* dic, const std::string& str){
     }else{
       words = dic->lookupDic(substr_utf8(str, i-1)); // prefix common search to look up Dic
       for(it=words.begin();it!=words.end();it++){
-	if(word_set.count(*it)>0) continue;
-	if(*it == "") continue; // sometimes extract empty word
-	word_set.insert(*it);
-	int wlen = strlen_utf8(*it);
-	reads=dic->getRead(*it);
+	std::string word = *it;
+	if(word_set.count(word)>0) continue;
+	if(word == "") continue; // sometimes extract empty word
+	word_set.insert(word);
+	int wlen = strlen_utf8(word);
+	reads=dic->getRead(word);
 	for(it_r=reads.begin();it_r!=reads.end();it_r++){
-	  if(read_set.count(*it_r)>0) continue;
-	  read_set.insert(*it_r);
- 	  Node node(*it, *it_r, i+wlen); // word->read node
+	  std::string read = *it_r;
+	  if(read_set.count(read)>0) continue;
+	  read_set.insert(read);
+ 	  Node node(word, read, i+wlen); // word->read node
 	  _word_lattice.addNode(i+wlen-1,node);
 	}
 	read_set.clear();
@@ -133,8 +150,8 @@ Result Decoder::backtrace(const Lattice &word_lattice, int n_best){
   // traverse
   while(node->is_bos() == false){
     if(is_debug()){ LOG(DEBUG) << node->word << ":" << node->read << ", "<< node->score;}
-    surfaceList.push_back(node->word);
-    readingList.push_back(node->read);
+    surfaceList.emplace_back(node->word);
+    readingList.emplace_back(node->read);
     node = node->prev;
   }
   reverse( surfaceList.begin(), surfaceList.end() );
@@ -221,15 +238,15 @@ NBestResult Decoder::backward_a_star(Lattice& word_lattice, int n_best){
       //std::vector<std::string> nbest_tokens;
       // </s>
       //std::string token = node.word + _delimiter + node.read ;
-      //surfaceList.push_back(node.word);
-      //readingList.push_back(node.read);
+      //surfaceList.emplace_back(node.word);
+      //readingList.emplace_back(node.read);
       
       while(t_arc.dest_id != -1){
 	t_arc = arcMap[t_arc.dest_id];
 	if (t_arc.dest_id == -1) break;
 	Node t_node = stateMap[t_arc.src_id];
-	surfaceList.push_back(t_node.word);
-	readingList.push_back(t_node.read);
+	surfaceList.emplace_back(t_node.word);
+	readingList.emplace_back(t_node.read);
 	if(is_debug()){
 	  std::cout << t_node.word << ":" << t_node.read << ":(id=" << t_arc.src_id << ") " << std::endl;
 	}
@@ -241,7 +258,7 @@ NBestResult Decoder::backward_a_star(Lattice& word_lattice, int n_best){
       result.surfaceList = surfaceList;
       result.readingList = readingList;
       result.score = arc.f;
-      nbestResult.push_back(result);
+      nbestResult.emplace_back(result);
       nbest_no++;
       if(nbest_no == n_best){
 	break;
@@ -249,7 +266,7 @@ NBestResult Decoder::backward_a_star(Lattice& word_lattice, int n_best){
 	
     }else{
       int prev_pos = node.get_prev_pos();
-      vector<Node>::iterator prev_node;
+      std::vector<Node>::iterator prev_node;
       for(size_t i=0;i<_word_lattice.sizeOfNodePerFrame(prev_pos);i++){
 	Node prev_node = _word_lattice[prev_pos][i];
 	double edge_score = get_edge_score(prev_node, node);

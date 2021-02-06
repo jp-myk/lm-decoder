@@ -7,8 +7,8 @@ Perceptron::Perceptron():
 
 Perceptron::~Perceptron(){}
 
-void Perceptron::setModel(const char* modelfile){
-  Model::read(modelfile,_weights);
+int Perceptron::setModel(const char* modelfile){
+  return Model::read(modelfile,_weights);
 }
 
 double Perceptron::get_score(const std::vector<std::string> &feat_vec){
@@ -44,10 +44,10 @@ double Perceptron::classify(const std::vector<std::string> &feat_vec){
   return score;
 }
 
-void Perceptron::save(const char *outmodel){
-  Model::save(outmodel,_weights);
+int Perceptron::save(const char *outmodel){
+  return Model::save(outmodel,_weights);
 }
 
-void Perceptron::read(const char* filename){
-  Model::read(filename,_weights);
+int Perceptron::read(const char* filename){
+  return Model::read(filename,_weights);
 }

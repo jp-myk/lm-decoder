@@ -5,22 +5,29 @@ StructuredSVM::StructuredSVM():
   _dic(nullptr){}
 
 StructuredSVM::~StructuredSVM(){
-  if(_model != nullptr) delete _model;
-  if(_dic != nullptr) delete _dic;
+  if(_model != nullptr) _model.reset();
+  if(_dic != nullptr) _dic.reset();
   _model = nullptr;
   _dic   = nullptr;
 }
 
-void StructuredSVM::setDic(const char* dicfile){
-  _dic = new Dic();
-  _dic->read(dicfile);
-  decoder.setDic(_dic);
+int StructuredSVM::setDic(const char* dicfile){
+  _dic = std::unique_ptr<Dic>(new Dic());
+  if (_dic->read(dicfile) != 0) return 1;
+  if (decoder.setDic(_dic.get()) != 0) return 1;
+  if (!_dic) return 1;
+  return 0;
 }
 
-void StructuredSVM::setModel(const char* modelfile){
-  _model = new SVM();
-  _model->read(modelfile);
-  decoder.setModel(_model);
+int StructuredSVM::setModel(const char* modelfile){
+  _model = std::unique_ptr<SVM>(new SVM());
+  if (_model->read(modelfile) != 0){
+    std::cerr << "error _model->read():" << modelfile << std::endl;
+    //return 1;
+  }
+  if (decoder.setModel(_model.get()) !=0 ) return 1;
+  if (!_model) return 1;
+  return 0;
 }
 
 void StructuredSVM::learn(const char* trainfile, const char* outdir, int chunk_num,int iter_num){
@@ -87,7 +94,7 @@ void StructuredSVM::regularize_graph(Lattice& lattice){
       if(node->is_bos()) continue;
       regularize_node(*node);
       int prev_pos = node->get_prev_pos();
-      vector<Node>::iterator prev_node;
+      std::vector<Node>::iterator prev_node;
       size_t prev_node_size =  lattice.sizeOfNodePerFrame(prev_pos);
       for(size_t k=0;k<prev_node_size;k++){ // loop prev frame's node
 	Node *prev_node = &lattice[prev_pos][k];
@@ -152,14 +159,21 @@ void StructuredSVM::update_edge_score(const Node &prev_node, const Node &node, d
 }
 
 
-void StructuredSVM::save(const char *outdic, const char *outmodel){
+int StructuredSVM::save(const char *outdic, const char *outmodel){
   _model->regularize_all(); //全体の正規化
-  _dic->save(outdic);
-  _model->save(outmodel);
+  if (_dic->save(outdic) != 0){
+    std::cerr << "failed dic->save:" << outdic << std::endl;
+    return 1;
+  }
+  if (_model->save(outmodel) != 0){
+    std::cerr << "failed model->save:" << outmodel << std::endl;
+    return 1;
+  }
+  return 0;
 }
 
-void StructuredSVM::read(const char* filename){
-  _model->read(filename);
+int StructuredSVM::read(const char* filename){
+  return _model->read(filename);
 }
 
 

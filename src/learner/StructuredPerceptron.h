@@ -8,6 +8,7 @@
 #include <iostream>
 #include <fstream>
 #include <unordered_map>
+#include <memory>
 #include "learner/ILearner.h"
 #include "decoder/Decoder.h"
 #include "classifier/Perceptron.h"
@@ -21,12 +22,12 @@ class StructuredPerceptron: public ILearner{
  public:
   StructuredPerceptron();
   virtual ~StructuredPerceptron();
-  void setDic(const char* dicfile);
-  void setModel(const char* modelfile);
+  int setDic(const char* dicfile);
+  int setModel(const char* modelfile);
   void learn(const char* trainfile, const char* outdir, int chunk_num,int iter_num);
   void learn(const std::string& corr_sentnece);
-  void save(const char* outdic, const char *outmodel);
-  void read(const char* filename);
+  int save(const char* outdic, const char *outmodel);
+  int read(const char* filename);
  private:
   double learning_rate;
   void update_parameters(Result& corr_result, 
@@ -38,8 +39,8 @@ class StructuredPerceptron: public ILearner{
 
   int sign(int x); // sign関数
   Decoder decoder;
-  Dic *_dic;
-  Model *_model;
+  std::unique_ptr<Dic> _dic;
+  std::unique_ptr<Model> _model;
   Feature _feature;
 
   //std::vector<std::string> convert_to_gold_standard(std::vector< std::pair<std::string,std::string> >& sentence);

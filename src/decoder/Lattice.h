@@ -1,4 +1,3 @@
-
 #ifndef _LATTICE_H_
 #define _LATTICE_H_
 
@@ -11,9 +10,6 @@
 #include "utils/StringUtil.h"
 #include "utils/LOG.h"
 #define _DEBUG_ 0
-
-using namespace std;
-
 
 class Node{
  public:
@@ -29,7 +25,7 @@ class Node{
   Node(){
     score = 1.0; // init score
   }
-  Node(string _word, string _read, int _endpos){
+  Node(std::string _word, std::string _read, int _endpos){
     word = _word;
     read = _read;
     endpos = _endpos;
@@ -47,7 +43,6 @@ class Node{
     //delete prev;
   };
   bool is_bos() const{
-    //std::cout << "[debug/jmiyake]" << endpos << std::endl;
     //return (word=="<s>" && endpos == 0) ?  true : false;
     return (word=="<s>") ?  true : false;
     

@@ -14,7 +14,7 @@ SLM::~SLM(){
   for(i=0;i<_ngram_len;i++){
      delete[] _nodes[i];
   }
-  delete _nodes;
+  delete[] _nodes;
 }
 
 /*
@@ -78,7 +78,7 @@ void SLM::_updateNgramNodeData(std::vector<std::string>& word_array, NgramNode *
   nn1 = _search_node(word_array, _nodes[0], _ngram_size[0], 1, (int)word_array.size()); // wordarray, 追加node, first_ngram,  target_ngrams
   
   if(nn1 != NULL){
-    if(_debug) cout << "update node" << endl;
+    if(_debug) std::cout << "update node" << std::endl;
     // ngram hit
     nn1->prob += ProbtoLogP( LogPtoProb(nn1->prob)+LogPtoProb(nn2->prob) );
     nn1->alpha += ProbtoLogP( LogPtoProb(nn1->alpha)+LogPtoProb(nn2->alpha) );
@@ -178,9 +178,9 @@ double SLM::getProb(std::vector<std::string> &word_array, int len){
     for(j=0;j<ngram_len;j++){
       buf.push_back(word_array[i+j]);
     }
-    //cout << "debug" << join(" ", buf) << endl;
+    // std::cout << "debug" << join(" ", buf) << std::endl;
     retval += _getProb0(buf, ngram_len);
-    //cout << "debug" << toString(retval) << endl;
+    // std::cout << "debug" << toString(retval) << std::endl;
   }
   return retval;
 }
@@ -198,9 +198,9 @@ double SLM::getProb(std::vector<int> &word_array, int len){
     for(j=0;j<ngram_len;j++){
       buf.push_back(_getWordStr(word_array[i+j]));
     }
-    //cout << "debug" << join(" ", buf) << endl;
+    // std::cout << "debug" << join(" ", buf) << std::endl;
     retval += _getProb0(buf, ngram_len);
-    //cout << "debug" << toString(retval) << endl;
+    // std::cout << "debug" << toString(retval) << std::endl;
   }
   return retval;
 }
@@ -274,7 +274,7 @@ std::vector<std::string> SLM::_dumpNgram0(int curr_level, int target_level, int 
     }
     
   }
-  if(_debug) cout << "dumpngram error" <<endl;
+  if(_debug) std::cout << "dumpngram error" << std::endl;
   return retval;
 }
 
@@ -290,9 +290,9 @@ std::vector<std::string> SLM::dumpNgram(int len){
   ret = _dumpNgram0(1,len,0, _ngram_size[0], buf);
   if(_debug) printf("n=%d\n", (int)ret.size());
   /*
-  vector<string>::iterator it;
+  std::vector<std::string>::iterator it;
   for(it=ret.begin();it!=ret.end();it++){
-  if(_debug) cout << *it << endl;
+  if(_debug) std::cout << *it << std::endl;
   }
   */
   return ret;
@@ -325,14 +325,14 @@ std::string SLM::_getWordStr(int wordID){
 // read ARPA Language Model from file
 //---------------------------------------
 int SLM::readLM(const char *filename){
-  ifstream ifs;
+  std::ifstream ifs;
   char buf[1024];
   //int ngram_size[10]; // MAX_NGRAM=10
   int n,m;
   _ngram_len = 0;
   double prob, alpha;
   ifs.open(filename);
-  if(_debug) cout << "/* read header */" << endl;
+  if(_debug) std::cout << "/* read header */" << std::endl;
   while(ifs && ifs.getline(buf, sizeof(buf))){
     if (strncmp(buf,"\\data\\",6) == 0){
       //break;
@@ -378,7 +378,7 @@ int SLM::readLM(const char *filename){
   
 
   /* Ngram start */
-  if(_debug) cout << "/* ngram start */" << endl;
+  if(_debug) std::cout << "/* ngram start */" << std::endl;
   n = 0;
   int pos = 0;
   int w = 0;
@@ -391,7 +391,7 @@ int SLM::readLM(const char *filename){
 	// check ngram length
 	if(_debug) printf("count=%d, head=%d\n", pos, _ngram_size[n-1]);
 	if(pos != _ngram_size[n-1]){
-	  cerr << "ngram size error" << endl;
+	  std::cerr << "ngram size error" << std::endl;
 	  exit(0);
 	}else{
 	  _ngram_size[n-1] = pos;
@@ -407,7 +407,7 @@ int SLM::readLM(const char *filename){
       }
     }
     
-    if(_debug) cout << buf << endl;
+    if(_debug) std::cout << buf << std::endl;
     std::vector<std::string> column = split("\t", toString(buf));
     std::vector<std::string> word_array = split(" ", column[1]);
     prob  = atof(column[0].c_str()); // Log Probability
@@ -433,12 +433,12 @@ int SLM::readLM(const char *filename){
     
     if(n>1){
       double p = _getProb0(word_array, n); // wordarray, 追加node, nelem, 1gram, target_ngram, pos
-      if(_debug) cout << "search node: " << toString(p) << endl;
+      if(_debug) std::cout << "search node: " << toString(p) << std::endl;
     }
     pos++;
   } while(ifs && ifs.getline(buf, sizeof(buf)));
   
-  if (_debug) cout << "end" << endl;
+  if (_debug) std::cout << "end" << std::endl;
   
   ifs.close();
   return 0;

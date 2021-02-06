@@ -1,17 +1,18 @@
 #ifndef _NGRAM_LM_DECODER_H_
 #define _NGRAM_LM_DECODER_H_
-#include "ngram/SLM.h"
-#include "decoder/Decoder.h"
 #include <string>
 #include <vector>
 #include <algorithm>
 #include <queue>
 #include <cstdlib>
 #include <unordered_map>
+#include <memory>
+#include "ngram/SLM.h"
+#include "decoder/Decoder.h"
 
 class NgramLMDecoder : public Decoder{
  private:
-  Dic *_dic;
+  std::unique_ptr<Dic> _dic;
   Lattice _word_lattice,_hyp_lattice;
   SLM _slm;
   bool _debug;
@@ -22,8 +23,8 @@ class NgramLMDecoder : public Decoder{
  public:
   NgramLMDecoder();
   virtual ~NgramLMDecoder();
-  void setDic(const char* dicfile);
-  void setModel(const char* lmfile);
+  int setDic(const char* dicfile);
+  int setModel(const char* lmfile);
   Result decode(const std::string& str);
   Lattice& forward(const Lattice &word_lattice); // beam search
   Result backtrace(const Lattice &hyp_lattice, int n_best=0);

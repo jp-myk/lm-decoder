@@ -13,22 +13,20 @@
 #include "classifier/Model.h"
 #undef _DEBUG_
 #define _DEBUG_ 1
-//using namespace std;
-//using namespace std::tr1;
 
 class SVM : public Model {
  public:
   SVM();
   ~SVM();
-  void setModel(const char* modelfile);
+  int setModel(const char* modelfile);
   void fit(const std::vector<std::string> &feat_vec, double label);
   double classify(const std::vector<std::string> &feat_vec);
   double get_score(const std::vector<std::string> &feat_vec){
     return classify(feat_vec);
   }
   void add_update_count(){_updated_count++;}
-  void save(const char *outmodel);
-  void read(const char* filename);
+  int save(const char *outmodel);
+  int read(const char* filename);
   double margin(const std::vector<std::string> &feat_vec, double label);
   void l1_regularize(const std::vector<std::string> feat_vec);
   void regularize_all();

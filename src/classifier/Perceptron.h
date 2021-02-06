@@ -14,13 +14,13 @@ class Perceptron : public Model{
  public:
   Perceptron();
   virtual ~Perceptron();
-  void setModel(const char* modelfile);
+  int setModel(const char* modelfile);
   void fit(const std::vector<std::string>& feat_vec, double label);
   double classify(const std::vector<std::string> &feat_vec);
   double get_score(const std::vector<std::string> &feat_vec);
-  void save(const char* outdic, const char *outmodel);
-  void save(const char *outmodel);
-  void read(const char* filename);
+  int save(const char* outdic, const char *outmodel);
+  int save(const char *outmodel);
+  int read(const char* filename);
  private:
   std::unordered_map<std::string,double> _weights;
   double _learning_rate;

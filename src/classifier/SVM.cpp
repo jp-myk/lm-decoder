@@ -9,8 +9,8 @@ SVM::SVM():
 
 SVM::~SVM(){}
 
-void SVM::setModel(const char* modelfile){
-  read(modelfile);
+int SVM::setModel(const char* modelfile){
+  return read(modelfile);
 }
 
 double SVM::margin(const std::vector<std::string> &feat_vec,
@@ -88,13 +88,13 @@ void SVM::l1_regularize(const std::vector<std::string> feat_vec){
 }
 
 
-void SVM::save(const char *outmodel){
+int SVM::save(const char *outmodel){
   regularize_all(); //全体の正規化
-  Model::save(outmodel,_weights);
+  return Model::save(outmodel,_weights);
 }
 
-void SVM::read(const char* filename){
-  Model::read(filename,_weights);
+int SVM::read(const char* filename){
+  return Model::read(filename,_weights);
 }
 
 int SVM::sign(int x){

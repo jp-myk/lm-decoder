@@ -13,18 +13,16 @@
 #include "marisa.h"
 #include "utils/StringUtil.h"
 #include "utils/LOG.h"
-using namespace std;
-
 
 class Dic{
  public:
   Dic();
   ~Dic();
-  void read(const char *filename);
-  void save(const char *filename);
+  int read(const char *filename);
+  int save(const char *filename);
   void update_trie(const char *key, const char* feature);
-  std::vector<std::string> getRead(string &key);
-  std::vector<std::string> lookupDic(const std::string &str);
+  std::vector<std::string> getRead(std::string &key);
+  std::vector<std::string> lookupDic(const std::string &str) const;
   bool is_exist(const std::string& str);
   bool is_exist(const std::string& word, const std::string& read);
 

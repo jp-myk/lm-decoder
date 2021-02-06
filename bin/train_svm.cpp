@@ -10,9 +10,19 @@ int main(int argc, char *argv[]){
   int chunk_num = 500;
 
   StructuredSVM learner;  
-  learner.setDic(dicfile);
-  learner.setModel(output_model);
+  if (learner.setDic(dicfile) != 0) {
+    std::cerr << "failed setDict:" << dicfile << std::endl;
+    return 1;
+  }
+  if (learner.setModel(output_model) != 0) {
+    std::cerr << "failed setModel:" << output_model << std::endl;
+    return 1;
+  }
   learner.learn(train_corpus, outdir, chunk_num, iter_num); // train
-  learner.save(output_dic, output_model);   // save
+  // save
+  if (learner.save(output_dic, output_model) != 0) {
+    std::cerr << "failed save:" << output_dic << "," << output_model << std::endl;
+    return 1;
+  }
   return 0;
 }

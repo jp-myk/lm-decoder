@@ -4,7 +4,6 @@
 #include<sstream>
 #include<vector>
 #include<iostream>
-using namespace std;
 
 const int utf8_len_data[] = {
   1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
@@ -20,9 +19,9 @@ const int utf8_len_data[] = {
 };
 
 
-inline vector<string> split(string delim, const string &str){
+inline std::vector<std::string> split(std::string delim, const std::string &str){
   
-  vector<string> retval;
+  std::vector<std::string> retval;
   int cutAt;
   if(delim == ""){
     size_t s_size = str.size();
@@ -30,13 +29,13 @@ inline vector<string> split(string delim, const string &str){
     while(i < s_size ){
       unsigned char c = str[i];
       int char_len = utf8_len_data[c];
-      string s1 = str.substr(i, char_len);
+      std::string s1 = str.substr(i, char_len);
       retval.push_back(s1);
       i += char_len;
     }
   }else{
     size_t i = 0;
-    string tmp = str;
+    std::string tmp = str;
     while((cutAt = tmp.find(delim)) != (int)str.npos){
       //cout << tmp << endl;
       retval.push_back(str.substr(i, cutAt));
@@ -50,9 +49,9 @@ inline vector<string> split(string delim, const string &str){
   return retval;
 }
 
-inline string join(string delim, vector<string> &vec){
-  string retval;
-  vector<string>::iterator itr;
+inline std::string join(std::string delim, std::vector<std::string> &vec){
+  std::string retval;
+  std::vector<std::string>::iterator itr;
   for(itr= vec.begin(); itr != vec.end(); itr++){
     retval.append(*itr);
     if((itr +1) != vec.end())
@@ -62,20 +61,20 @@ inline string join(string delim, vector<string> &vec){
 }
 
 template<typename T_num>
-inline string toString(T_num t_num){
-  stringstream ss;
+inline std::string toString(T_num t_num){
+  std::stringstream ss;
   ss << t_num;
   return ss.str();
 }
 
-inline size_t strlen_utf8(const string &str){
+inline size_t strlen_utf8(const std::string &str){
   size_t s_size = str.size();
   size_t i = 0;
   size_t len = 0;
   while(i < s_size ){
     unsigned char c = str[i];
     int char_len = utf8_len_data[c];
-    //string s1 = str.substr(i, char_len);
+    //std::string s1 = str.substr(i, char_len);
     i += char_len;
     len++;
   }
@@ -83,11 +82,11 @@ inline size_t strlen_utf8(const string &str){
   return len;
 }
 
-inline string substr_utf8(const string &str, int pos){
+inline std::string substr_utf8(const std::string &str, int pos){
   size_t s_size = str.size();
   size_t i = 0;
   size_t len = 0;
-  string retval = "";
+  std::string retval = "";
   while(i < s_size ){
     unsigned char c = str[i];
     int char_len = utf8_len_data[c];

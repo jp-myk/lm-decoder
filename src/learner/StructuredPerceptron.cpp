@@ -6,22 +6,24 @@ StructuredPerceptron::StructuredPerceptron():
   {}
 
 StructuredPerceptron::~StructuredPerceptron(){
-  if(_model!=nullptr) delete _model;
-  if(_dic!=nullptr) delete _dic;
+  if(_model!=nullptr) _model.reset();
+  if(_dic!=nullptr) _dic.reset();
   _model = nullptr;
   _dic   = nullptr;
 }
 
-void StructuredPerceptron::setDic(const char* dicfile){
-  _dic = new Dic();
-  _dic->read(dicfile);
-  decoder.setDic(_dic);
+int StructuredPerceptron::setDic(const char* dicfile){
+  _dic = std::unique_ptr<Dic>(new Dic());
+  if (_dic->read(dicfile) != 0) return 1;
+  if (decoder.setDic(_dic.get()) != 0) return 1;
+  return 0;
 }
 
-void StructuredPerceptron::setModel(const char* modelfile){
-  _model = new Perceptron();
-  _model->read(modelfile);
-  decoder.setModel(_model);
+int StructuredPerceptron::setModel(const char* modelfile){
+  _model = std::unique_ptr<Perceptron>(new Perceptron());
+  if (_model->read(modelfile) != 0) return 1;
+  if (decoder.setModel(_model.get()) != 0) return 1;
+  return 0;
 }
 
 void StructuredPerceptron::learn(const char* trainfile, const char* outdir,
@@ -106,13 +108,14 @@ void StructuredPerceptron::update_edge_score(const Node &prev_node, const Node &
 }
 
 
-void StructuredPerceptron::save(const char *outdic, const char *outmodel){
-  _dic->save(outdic);
-  _model->save(outmodel);
+int StructuredPerceptron::save(const char *outdic, const char *outmodel){
+  if(_dic->save(outdic) != 0) return 1;
+  if(_model->save(outmodel) != 0) return 1;
+  return 0;
 }
 
-void StructuredPerceptron::read(const char* filename){
-  _model->read(filename);
+int StructuredPerceptron::read(const char* filename){
+  return _model->read(filename);
 }
 
 

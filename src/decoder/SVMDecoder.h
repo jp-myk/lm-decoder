@@ -4,46 +4,25 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <memory>
 #include "decoder/Decoder.h"
 #include "classifier/SVM.h"
 #include "utils/StringUtil.h"
 #include "utils/LOG.h"
-#define DEBUG 1
-//typedef vector<string, string> 
-using namespace std;
-
+#define DEBUG 0
 
 class SVMDecoder : public Decoder {
  public:
   Lattice _word_lattice;
-  Dic *_dic;
-  SVM *_model;
+  Dic* _dic;
+  SVM* _model;
   
-  SVMDecoder(): _delimiter(":"){
-    _dic = (Dic*)NULL;
-    _model = (SVM*)NULL;
-    _penalty=0.05;
-  };
-  virtual ~SVMDecoder(){
-    if(_model!=(SVM*)NULL) delete _model;
-    if(_dic!=(Dic*)NULL) delete _dic;
-    _model = (SVM*)NULL;    
-    _dic   = (Dic*)NULL;
-  };
-  void setDic(const char* dicfile){
-    _dic = new Dic();
-    _dic->read(dicfile);
-  }
-  void setModel(const char* modelfile){
-    _model = new SVM();
-    _model->read(modelfile);
-  }
-  void setDic(Dic *dic){
-    _dic = dic;
-  }
-  void setModel(Model *model){
-    _model =(SVM*)model;
-  }
+  SVMDecoder();
+  virtual ~SVMDecoder();
+  int setDic(const char* dicfile);
+  int setModel(const char* modelfile);
+  int setDic(Dic* dic);
+  int setModel(SVM* model);
   Lattice& generate_lattice(const std::string& str){
     return Decoder::generate_lattice(_dic, str);
   }
@@ -65,7 +44,8 @@ class SVMDecoder : public Decoder {
   double get_node_score(Node& node, std::unordered_map<int, Node>& gold);
   double get_edge_score(Node& prev_node, Node& node, std::unordered_map<int, Node>& gold);
   double _penalty;
-
+  bool _loadDicFromFile;
+  bool _loadModelFromFile;
 };
 
 #endif

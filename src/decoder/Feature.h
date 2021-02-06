@@ -12,9 +12,6 @@
 #include "decoder/Lattice.h"
 #include "utils/StringUtil.h"
 
-using namespace std;
-
-
 class Feature{
  public:
   Feature(){};

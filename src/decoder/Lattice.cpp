@@ -136,7 +136,7 @@ void Lattice::dump(){
       }
 
     }
-    cout << endl;
+    std::cout << std::endl;
   }
   //return 0;
 }
