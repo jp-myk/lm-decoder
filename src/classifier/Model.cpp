@@ -6,13 +6,14 @@ int Model::save(const char* filename){
   std::unordered_map<std::string, double>::const_iterator it;
   if ((fp = fopen(filename, "w")) == NULL) {
     printf("file open error!!\n");
-    exit(EXIT_FAILURE);
+    return 1;
   }
   
   for(it=_weights.begin();it!=_weights.end();it++){
     fprintf(fp, "%s\t%.8f\n", (*it).first.c_str(), (*it).second);
   }
   fclose(fp);
+  return 0;
 }
 
 int Model::read(const char* filename){
