@@ -48,7 +48,7 @@ Please use OSS LM Toolkit. SRI or IRSTLM or etc.
 if possibly, I will commit original source code later.
 
 ## run decoder
-- lmdecoder
+- ngram-lm based decoder
 ```shell
 $ echo "平城京は奈良時代の日本の首都" | ./bin/lmdecoder sample_data/sample.dic sample_data/sample.3gram.arpa 
 ======== 1-BEST =========
@@ -61,7 +61,7 @@ $ echo "平城京は奈良時代の日本の首都" | ./bin/lmdecoder sample_dat
 5-best  平城京:ヘイジョウキョウ は:ハ 奈良:ナラ 時代:ジダイ の:ノ 日:ヒ 本:ホン の:ノ 首都:シュト       -22.9183
 ```
 
-- decoder
+- simple decoder(basically use word and connection costs)
 ```shell
 $ echo "平城京は奈良時代の日本の首都" | ./bin/decoder svm.dic svm.model 
 ======== 1-BEST =========
