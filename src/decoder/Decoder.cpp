@@ -44,8 +44,9 @@ int Decoder::setModel(Model* model){
 }
 
 Lattice& Decoder::generate_lattice(Dic* dic, const std::string& str){
-  int len = (int)strlen_utf8(str);
-  int frame_size = len+2;
+  std::vector<std::string> char_ary = split("",str);
+  int len = static_cast<int>(char_ary.size());
+  int frame_size = len+2; // 2 means <sos> and <eos>
   _word_lattice.resize(frame_size);
   for(int i=0;i<frame_size;i++){
     std::vector<Node> nodes;
@@ -61,6 +62,14 @@ Lattice& Decoder::generate_lattice(Dic* dic, const std::string& str){
       _word_lattice.addNode(i, eos);
     }else{
       words = dic->lookupDic(substr_utf8(str, i-1)); // prefix common search to look up Dic
+
+      // detect UNK word
+      if (words.size() == 0) {
+	Node node(char_ary[i-1], "UNK", i+1); // word->read node
+	_word_lattice.addNode(i,node);
+	continue;
+      }
+      
       for(it=words.begin();it!=words.end();it++){
 	std::string word = *it;
 	if(word_set.count(word)>0) continue;
