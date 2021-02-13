@@ -3,11 +3,12 @@
 - This repository is for my own study.
 
 ## key points
-- Statistical N-gram Language Model (ARPA Format)
+- statistical N-gram Language Model (ARPA Format)
 - Linear Discriminative Model(Structured SVM/Perceptron)
-- Lattice search algorithms are simple forward viterbi / beam search / backward a star
+- Lattice search algorithms are implemented simple forward viterbi / beam search / backward a star
 - Support to extract n-best hypothesis
 - Use marisa-trie for dictionary look-up( https://github.com/s-yata/marisa-trie )
+- Unknown word(UNK) is segmented into a single char
 
 ## build
 ```shall
